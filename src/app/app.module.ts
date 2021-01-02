@@ -36,13 +36,10 @@ import { HttpConfInterceptor } from './HttpConfInterceptor';
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
-    NbChatModule.forRoot({
-      messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-    }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
   ],
-  providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: HttpConfInterceptor }],
+  providers: [AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: HttpConfInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {
