@@ -17,7 +17,7 @@ export class HttpConfInterceptor implements HttpInterceptor {
     if (!request.headers.has('Authorization')) {
       this.authService.getToken().subscribe(result => {
         const token = result.getValue();
-        if (!token) {
+        if (token) {
           request = request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`) });
         }
       });
@@ -27,6 +27,7 @@ export class HttpConfInterceptor implements HttpInterceptor {
     }
 
     request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
+    request = request.clone({ headers: request.headers.set('Access-Control-Allow-Origin', '*') });
     this.request = request;
 
     return next.handle(request).pipe(

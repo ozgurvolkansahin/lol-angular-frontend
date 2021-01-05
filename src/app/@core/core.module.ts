@@ -6,6 +6,8 @@ import { of as observableOf } from 'rxjs';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { environment } from 'environments/environment';
+import { ChampionData } from './data/champion-data';
+import { ChampionService } from './utils/champion.service';
 
 const socialLinks = [
   {
@@ -26,7 +28,7 @@ const socialLinks = [
 ];
 
 const DATA_SERVICES = [
-  // { provide: SecurityCamerasData, useClass: SecurityCamerasService },
+  { provide: ChampionData, useClass: ChampionService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

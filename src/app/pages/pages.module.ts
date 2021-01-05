@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule } from '@nebular/theme';
+import { NbCardModule, NbMenuModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -10,6 +10,7 @@ import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rot
 
 @NgModule({
   imports: [
+    NbCardModule,
     PagesRoutingModule,
     ThemeModule,
     NbMenuModule,

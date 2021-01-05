@@ -6,6 +6,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'home-outline',
     link: '/pages/iot-dashboard',
   },
+  {
+    title: 'Free Champions',
+    icon: 'home-outline',
+    link: '/pages/free-champs',
+  },
   // {
   //   title: 'FEATURES',
   //   group: true,
