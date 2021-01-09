@@ -8,6 +8,8 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 import { environment } from 'environments/environment';
 import { ChampionData } from './data/champion-data';
 import { ChampionService } from './utils/champion.service';
+import { SpectatorData } from './data/spectator-data';
+import { SpectatorService } from './utils/spectator.service';
 
 const socialLinks = [
   {
@@ -29,6 +31,7 @@ const socialLinks = [
 
 const DATA_SERVICES = [
   { provide: ChampionData, useClass: ChampionService },
+  { provide: SpectatorData, useClass: SpectatorService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

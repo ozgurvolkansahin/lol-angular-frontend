@@ -1,4 +1,5 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { SpectatorData } from 'app/@core/data/spectator-data';
 
 
 @Component({
@@ -6,11 +7,16 @@ import {Component, OnDestroy} from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    private spectatorService: SpectatorData) {
   }
 
-  ngOnDestroy() {
+  ngOnInit() {
+    this.spectatorService.getSummonerActiveGame('BlackLittle')
+    .subscribe(result => {
+      console.log(result.data);
+    });
   }
 }
