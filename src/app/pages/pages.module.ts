@@ -7,6 +7,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rotation.component';
+import { ChampDetailsComponent } from './champ-details/champ-details.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rot
   declarations: [
     PagesComponent,
     FreeChampRotationComponent,
+    ChampDetailsComponent,
   ],
 })
 export class PagesModule {

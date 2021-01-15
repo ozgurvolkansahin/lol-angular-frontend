@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rotation.component';
+import { ChampDetailsComponent } from './champ-details/champ-details.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [{
     {
       path: 'free-champs',
       component: FreeChampRotationComponent,
+    },
+    {
+      path: 'champ-details/:name',
+      component: ChampDetailsComponent,
     },
     {
       path: 'miscellaneous',
