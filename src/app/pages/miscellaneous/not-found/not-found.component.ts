@@ -13,6 +13,6 @@ export class NotFoundComponent {
   }
 
   goToHome() {
-    this.router.navigate(['/iot-dashboard']);
+    this.router.navigate(['/live-tracking']);
   }
 }

@@ -1,3 +1,71 @@
 <div class="row">
-
+    <nb-card>
+        <nb-card-header>
+            Canlı Takip
+        </nb-card-header>
+        <nb-card-body>
+            <div class="row">
+                <div class="col-6">
+                    <nb-icon nbPrefix icon="icon-outline" pack="eva"></nb-icon>
+                    <input type="text" nbInput fullWidth size="small" placeholder="Sihirdar Adı..."
+                        [(ngModel)]="summonerName">
+                </div>
+                <div class="col-3">
+                    <button nbButton status="primary" size="small" (click)="getMatchHistory()">
+                        <nb-icon icon="star"></nb-icon>Ara
+                    </button>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
 </div>
+
+<!-- live tracking data -->
+<nb-card>
+    <nb-card-header>Live Match Tracking</nb-card-header>
+    <nb-card-body>
+        <!-- team 1 -->
+        <div class="row">
+            <div class="col-2" *ngFor="let item of list">
+                <nb-card>
+                    <nb-card-header>
+                        <nb-user name="pgil the Savior" title="Jungle"
+                            picture="/assets/dragontail-10.25.1/10.25.1/img/champion/Aatrox.png">
+
+                        </nb-user>
+                    </nb-card-header>
+                    <nb-card-body>
+
+                    </nb-card-body>
+                    <nb-card-footer>
+
+                    </nb-card-footer>
+                </nb-card>
+            </div>
+        </div>
+        <!--. team 1 -->
+
+        <!-- team 2 -->
+        <div class="row">
+            <div class="col-2" *ngFor="let item of list">
+                <nb-card>
+                    <nb-card-header>
+                        <nb-user name="pgil the Savior" title="Jungle"
+                            picture="/assets/dragontail-10.25.1/10.25.1/img/champion/Ahri.png">
+
+                        </nb-user>
+                    </nb-card-header>
+                    <nb-card-body>
+
+                    </nb-card-body>
+                    <nb-card-footer>
+
+                    </nb-card-footer>
+                </nb-card>
+            </div>
+        </div>
+        <!--. team 2 -->
+        <!--. live tracking data -->
+
+    </nb-card-body>
+</nb-card>

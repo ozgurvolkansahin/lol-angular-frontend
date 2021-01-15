@@ -9,6 +9,7 @@ import {
   NbSelectModule,
   NbListModule,
   NbIconModule,
+  NbInputModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -29,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule,
     NbListModule,
     NbIconModule,
+    NbInputModule,
     NbButtonModule,
     NgxEchartsModule,
   ],
