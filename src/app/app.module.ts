@@ -35,7 +35,9 @@ import { HttpConfInterceptor } from './HttpConfInterceptor';
     NbDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
-    NbToastrModule.forRoot(),
+    NbToastrModule.forRoot(
+      {limit: 3},
+    ),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
   ],

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbMenuModule } from '@nebular/theme';
+import { NbCardModule, NbInputModule, NbMenuModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -17,6 +17,7 @@ import { ChampDetailsComponent } from './champ-details/champ-details.component';
     NbMenuModule,
     DashboardModule,
     MiscellaneousModule,
+    NbInputModule,
   ],
   declarations: [
     PagesComponent,

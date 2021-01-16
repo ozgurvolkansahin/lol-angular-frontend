@@ -12,7 +12,7 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
-      path: 'iot-dashboard',
+      path: 'live-tracking',
       component: DashboardComponent,
     },
     {
@@ -30,7 +30,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'iot-dashboard',
+      redirectTo: 'live-tracking',
       pathMatch: 'full',
     },
     {
