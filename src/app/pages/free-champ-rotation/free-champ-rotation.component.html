@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-2"
+    *ngFor="let champ of freeChampFinalList; let i = index">
+        <nb-card [status]="returnStatus(champ.tags[0])"
+        style="cursor: pointer;"
+        [routerLink]="['/pages/champ-details', champ.name]">
+            <nb-card-header> {{champ.name}} </nb-card-header>
+            <nb-card-body>
+                <img
+                [src]="champ.image.full" [alt]="champ.name" [title]="champ.name">
+            </nb-card-body>
+            <nb-card-footer>
+                <label *ngFor="let tag of champ.tags; last as last"><b>{{tag}}</b><span *ngIf="!last">,&nbsp;</span></label>
+            </nb-card-footer>
+        </nb-card>
+    </div>
+</div>
