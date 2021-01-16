@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChampionData } from 'app/@core/data/champion-data';
+import { JsonData } from 'app/@core/data/json-data';
 import { FreeChampions } from 'app/@core/models/champion-models/free-champs';
 @Component({
   selector: 'ngx-free-champ-rotation',
@@ -11,11 +12,12 @@ export class FreeChampRotationComponent implements OnInit {
   freeChamps: FreeChampions;
   freeChampFinalList = [];
   imagePath = 'assets/dragontail-10.25.1/10.25.1/img/champion/';
-  constructor(private championService: ChampionData) {
+  constructor(private championService: ChampionData,
+    private jsonService: JsonData) {
    }
 
   ngOnInit(): void {
-    this.championService.getChampionJSONData('10.25.1', 'tr_TR')
+    this.jsonService.getChampionJSONData('10.25.1', 'tr_TR')
     .subscribe(result => {
       this.championService.getFreeChampions()
       .subscribe(champs => {

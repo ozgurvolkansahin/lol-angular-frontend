@@ -14,7 +14,9 @@ export class CurrentGameInfo {
 export class Perks {
     public perkIds: number[];
     public perkStyle: number;
+    public perkStyleName: string;
     public perkSubStyle: number;
+    public perkSubStyleName: string;
 }
 
 export class GameCustomizationObject {
@@ -29,11 +31,13 @@ export class Observer {
 export class BannedChampion {
     public pickTurn: number;
     public championId: number;
+    public championName: string;
     public teamId: number;
 }
 
 export class CurrentGameParticipant {
     public championId: number;
+    public championName: string;
     public perks: Perks;
     public profileIconId: number;
     public bot: boolean;
@@ -41,6 +45,8 @@ export class CurrentGameParticipant {
     public summonerName: string;
     public summonerId: string;
     public spell1Id: number;
+    public spell1Name: string;
     public spell2Id: number;
+    public spell2Name: string;
     public gameCustomizationObjects: GameCustomizationObject[];
 }
