@@ -13,6 +13,6 @@ export class SpectatorService extends SpectatorData {
     apiUrl = environment.apiUrl;
 
     getSummonerActiveGame(summonerName: string) {
-        return this.http.get<ApiResult<CurrentGameInfo>>(`${this.apiUrl}spectator/get_active_game/${summonerName}`);
+        return this.http.get<ApiResult<CurrentGameInfo>>(`${this.apiUrl}spectator/${summonerName}`);
     }
 }

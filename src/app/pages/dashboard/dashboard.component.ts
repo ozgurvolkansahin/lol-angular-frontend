@@ -7,7 +7,6 @@ import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
 import { BannedChampion, CurrentGameInfo, CurrentGameParticipant } from 'app/@core/models/spectator/spectator-model';
 import { globalVariables } from 'globalVariables';
 
-
 @Component({
   selector: 'ngx-dashboard',
   styleUrls: ['./dashboard.component.scss'],
@@ -32,10 +31,9 @@ export class DashboardComponent implements OnInit {
   summonerJsonData;
   runesReforged: RunesReforged[] = [];
   promise;
-
   ngOnInit() {
     this.getData();
-    this.getLiveMatch();
+    // this.getLiveMatchMock();
   }
 
   getData() {
@@ -54,12 +52,56 @@ export class DashboardComponent implements OnInit {
         });
       });
     });
-    return this.promise;
-
   }
 
   getLiveMatch() {
-    this.getData().then(res => {
+    this.promise.then(res => {
+      this.spectatorService.getSummonerActiveGame(this.summonerName)
+      .subscribe(result => {
+        if (result === null) {
+          this.toast.danger('Bulunamadı', 'Sihirdar aktif bir oyunda değil!');
+          return;
+        }
+        this.currentGameInfo = result.data;
+        // team 1 data optimization
+        this.team1 = this.currentGameInfo.participants.filter(x => x.teamId === 100);
+        this.team1.map(x => Object.assign({}, x.championName
+           = this.findChampion(x.championId)));
+        this.team1.map(x => Object.assign({}, x.spell1Name
+           = this.findSpells(x.spell1Id)));
+        this.team1.map(x => Object.assign({}, x.spell2Name
+           = this.findSpells(x.spell2Id)));
+        this.team1.map(x => Object.assign({}, x.perks.perkStyleName
+            = this.findRunes(x.perks.perkStyle)));
+        this.team1.map(x => Object.assign({}, x.perks.perkSubStyleName
+            = this.findRunes(x.perks.perkSubStyle)));
+
+        // team 2 data optimization
+        this.team2 = this.currentGameInfo.participants.filter(x => x.teamId === 200);
+        this.team2.map(x => Object.assign({}, x.championName
+           = this.findChampion(x.championId)));
+        this.team2.map(x => Object.assign({}, x.spell1Name
+           = this.findSpells(x.spell1Id)));
+          this.team2.map(x => Object.assign({}, x.spell2Name
+          = this.findSpells(x.spell2Id)));
+        this.team2.map(x => Object.assign({}, x.perks.perkStyleName
+            = this.findRunes(x.perks.perkStyle)));
+        this.team2.map(x => Object.assign({}, x.perks.perkSubStyleName
+            = this.findRunes(x.perks.perkSubStyle)));
+
+        // banned champions
+        this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 100);
+        this.team1BannedChamps.map(x => Object.assign({}, x.championName
+          = this.findChampion(x.championId)));
+        this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 200);
+        this.team2BannedChamps.map(x => Object.assign({}, x.championName
+          = this.findChampion(x.championId)));
+      });
+    });
+  }
+
+  getLiveMatchMock() {
+    this.promise.then(res => {
       this.jsonService.getLiveMatchMockData()
       .subscribe(result => {
         this.currentGameInfo = result;
@@ -90,10 +132,10 @@ export class DashboardComponent implements OnInit {
             = this.findRunes(x.perks.perkSubStyle)));
 
         // banned champions
-        this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x=> x.teamId === 100);
+        this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 100);
         this.team1BannedChamps.map(x => Object.assign({}, x.championName
           = this.findChampion(x.championId)));
-        this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x=> x.teamId === 200);
+        this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 200);
         this.team2BannedChamps.map(x => Object.assign({}, x.championName
           = this.findChampion(x.championId)));
       });

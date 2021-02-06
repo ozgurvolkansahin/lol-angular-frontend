@@ -44,5 +44,6 @@ export class HttpConfInterceptor implements HttpInterceptor {
         this.toastrService.danger(err.statusText);
         return throwError(err);
       }),
-    );  }
+    );
+  }
 }
