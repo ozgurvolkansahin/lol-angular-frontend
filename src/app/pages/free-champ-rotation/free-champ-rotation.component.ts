@@ -11,15 +11,16 @@ export class FreeChampRotationComponent implements OnInit {
   defaultRegion = 'TR';
   freeChamps: FreeChampions;
   freeChampFinalList = [];
-  imagePath = 'assets/dragontail-10.25.1/10.25.1/img/champion/';
+  server = 'tr';
+  imagePath = 'assets/dragontail/dragontail/img/champion/';
   constructor(private championService: ChampionData,
     private jsonService: JsonData) {
    }
 
   ngOnInit(): void {
-    this.jsonService.getChampionJSONData('10.25.1', 'tr_TR')
+    this.jsonService.getChampionJSONData('tr_TR')
     .subscribe(result => {
-      this.championService.getFreeChampions()
+      this.championService.getFreeChampions(this.server)
       .subscribe(champs => {
         this.freeChamps = champs.data;
         this.freeChamps.freeChampionIds.forEach(x => {

@@ -16,26 +16,20 @@ export class JsonService extends JsonData {
     constructor(private http: HttpClient) {
         super();
     }
-    getChampionJSONData(v?, lang?) {
+    getChampionJSONData(lang?) {
         const language = lang === undefined ? this.ddLang : lang;
-        const version = v === undefined ? this.ddVersion : v;
         return this.http
-        .get<ApiResult<any>>(`../../../assets/dragontail-${version}/${version}/data/${language}/champion.json`);
+        .get<ApiResult<any>>(`../../../assets/dragontail/dragontail/data/${language}/champion.json`);
     }
-    getLiveMatchMockData() {
-        return this.http
-        .get<CurrentGameInfo>(`../../../assets/lol-live-data.json`);
-    }
-    getSummonerData(v?, lang?) {
+
+    getSummonerData(lang?) {
         const language = lang === undefined ? this.ddLang : lang;
-        const version = v === undefined ? this.ddVersion : v;
         return this.http
-        .get<any>(`../../../assets/dragontail-${version}/${version}/data/${language}/summoner.json`);
+        .get<any>(`../../../assets/dragontail/dragontail/data/${language}/summoner.json`);
     }
-    getRunesReforged(v?, lang?) {
+    getRunesReforged(lang?) {
         const language = lang === undefined ? this.ddLang : lang;
-        const version = v === undefined ? this.ddVersion : v;
         return this.http
-        .get<RunesReforged[]>(`../../../assets/dragontail-${version}/${version}/data/${language}/runesReforged.json`);
+        .get<RunesReforged[]>(`../../../assets/dragontail/dragontail/data/${language}/runesReforged.json`);
     }
 }

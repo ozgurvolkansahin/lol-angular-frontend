@@ -15,7 +15,7 @@ export class ChampionService extends ChampionData {
     constructor(private http: HttpClient) {
         super();
     }
-    getFreeChampions() {
-        return this.http.get<ApiResult<FreeChampions>>(`${this.apiUrl}champion/get_free_champions`);
+    getFreeChampions(server: string) {
+        return this.http.get<ApiResult<FreeChampions>>(`${this.apiUrl}champion/${server}/get_free_champions`);
     }
 }

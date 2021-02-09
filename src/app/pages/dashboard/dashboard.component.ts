@@ -100,48 +100,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getLiveMatchMock() {
-    this.promise.then(res => {
-      this.jsonService.getLiveMatchMockData()
-      .subscribe(result => {
-        this.currentGameInfo = result;
-        // team 1 data optimization
-        this.team1 = this.currentGameInfo.participants.filter(x => x.teamId === 100);
-        this.team1.map(x => Object.assign({}, x.championName
-           = this.findChampion(x.championId)));
-        this.team1.map(x => Object.assign({}, x.spell1Name
-           = this.findSpells(x.spell1Id)));
-        this.team1.map(x => Object.assign({}, x.spell2Name
-           = this.findSpells(x.spell2Id)));
-        this.team1.map(x => Object.assign({}, x.perks.perkStyleName
-            = this.findRunes(x.perks.perkStyle)));
-        this.team1.map(x => Object.assign({}, x.perks.perkSubStyleName
-            = this.findRunes(x.perks.perkSubStyle)));
-
-        // team 2 data optimization
-        this.team2 = this.currentGameInfo.participants.filter(x => x.teamId === 200);
-        this.team2.map(x => Object.assign({}, x.championName
-           = this.findChampion(x.championId)));
-        this.team2.map(x => Object.assign({}, x.spell1Name
-           = this.findSpells(x.spell1Id)));
-          this.team2.map(x => Object.assign({}, x.spell2Name
-          = this.findSpells(x.spell2Id)));
-        this.team2.map(x => Object.assign({}, x.perks.perkStyleName
-            = this.findRunes(x.perks.perkStyle)));
-        this.team2.map(x => Object.assign({}, x.perks.perkSubStyleName
-            = this.findRunes(x.perks.perkSubStyle)));
-
-        // banned champions
-        this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 100);
-        this.team1BannedChamps.map(x => Object.assign({}, x.championName
-          = this.findChampion(x.championId)));
-        this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 200);
-        this.team2BannedChamps.map(x => Object.assign({}, x.championName
-          = this.findChampion(x.championId)));
-      });
-    });
-  }
-
   getMatchHistory() {
     if (this.summonerName !== null &&
       this.summonerName !== undefined &&
