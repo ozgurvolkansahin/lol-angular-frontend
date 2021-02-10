@@ -8,6 +8,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rotation.component';
 import { ChampDetailsComponent } from './champ-details/champ-details.component';
+import { SummonerDetailComponent } from './summoner-detail/summoner-detail.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ChampDetailsComponent } from './champ-details/champ-details.component';
     PagesComponent,
     FreeChampRotationComponent,
     ChampDetailsComponent,
+    SummonerDetailComponent,
   ],
 })
 export class PagesModule {

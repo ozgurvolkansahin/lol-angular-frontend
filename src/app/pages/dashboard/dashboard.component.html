@@ -1,4 +1,4 @@
-<nb-card *ngIf="!currentGameInfo">
+<nb-card *ngIf="!currentGameInfo && routedServer === null && routedSummoner === null">
     <nb-card-header>
         Canlı Takip
     </nb-card-header>
@@ -12,16 +12,27 @@
         </div>
         <!--. bronzelo png-->
 
-        <div class="row justify-content-around">
+        <div class="row">
+            <div class="col-2">
+
+            </div>
             <div class="col-6">
-                <nb-icon nbPrefix icon="icon-outline" pack="eva"></nb-icon>
                 <input type="text" nbInput fullWidth size="small" placeholder="Sihirdar Adı..."
                     [(ngModel)]="summonerName">
             </div>
+            <div class="col-2" *ngIf="servers">
+                <nb-select fullWidth
+                    [(ngModel)]="server">
+                    <nb-option *ngFor="let ss of servers.servers" [value]="ss.key">{{ss.value}}</nb-option>
+                </nb-select>
+            </div>
         </div>
-        <div class="row justify-content-around" style="margin-top: 20px;">
-            <div class="col-6">
-                <button nbButton status="primary" size="small" (click)="getLiveMatch()">
+        <div class="row">
+            <div class="col-2">
+
+            </div>
+            <div class="col-3 mt-20">
+                <button nbButton fullWidth status="primary" size="small" (click)="getLiveMatch()">
                     <nb-icon icon="star"></nb-icon>Ara
                 </button>
             </div>
@@ -42,7 +53,7 @@
         <!-- <div class="row">
             <div class="col-2">
                 <img 
-                src="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/map/map{{currentGameInfo.mapId}}.png"
+                src="/assets/dragontail/dragontail/img/map/map{{currentGameInfo.mapId}}.png"
                 style="height: 100px;">
             </div>
         </div> -->
@@ -51,7 +62,7 @@
             <!-- team 1 -->
             <nb-card>
                 <nb-card-header>
-                    Takım 1
+                    Takım 1 - Red Side
                 </nb-card-header>
                 <nb-card-body>
                     <div class="row  mt-20">
@@ -59,7 +70,8 @@
                             <nb-card>
                                 <nb-card-header>
                                     <nb-user [name]="player.summonerName"
-                                        picture="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/champion/{{player.championName}}.png">
+                                    [title]="player.tier + ' ' + player.rank + ' - ' + player.leaguePoints + ' LP'"
+                                        picture="/assets/dragontail/dragontail/img/champion/{{player.championName}}.png">
                                     </nb-user>
                                 </nb-card-header>
                                 <nb-card-body>
@@ -81,22 +93,22 @@
                                             <div class="col-6">
                                                 <label class="label">Spells</label>
                                                 <img class="spell-image"
-                                                    src="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/spell/{{player.spell1Name}}.png">
+                                                    src="/assets/dragontail/dragontail/img/spell/{{player.spell1Name}}.png">
                                             </div>
                                             <div class="col-6">
                                                 <img class="spell-image mt-10"
-                                                    src="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/spell/{{player.spell2Name}}.png">
+                                                    src="/assets/dragontail/dragontail/img/spell/{{player.spell2Name}}.png">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <label class="label">Runes</label>
                                             <div class="col-6">
                                                 <img class="spell-image"
-                                                    src="/assets/dragontail-{{ddVersion}}/img/{{player.perks.perkStyleName}}">
+                                                    src="/assets/dragontail/img/{{player.perks.perkStyleName}}">
                                             </div>
                                             <div class="col-6">
                                                 <img class="spell-image mt-10"
-                                                    src="/assets/dragontail-{{ddVersion}}/img/{{player.perks.perkSubStyleName}}">
+                                                    src="/assets/dragontail/img/{{player.perks.perkSubStyleName}}">
                                             </div>
                                         </div>
                                     </div>
@@ -112,10 +124,10 @@
                     <!-- team 2 banned champs-->
                     <label class="label">Banlanan Şampiyonlar</label>
                     <div class="row">
-                        <div class="col-2" *ngFor="let champ of team2BannedChamps">
+                        <div class="col-2" *ngFor="let champ of team1BannedChamps">
                             <nb-card-body>
                                 <nb-user [name]="champ.championName"
-                                    picture="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/champion/{{champ.championName}}.png">
+                                    picture="/assets/dragontail/dragontail/img/champion/{{champ.championName}}.png">
                                 </nb-user>
                             </nb-card-body>
                         </div>
@@ -128,7 +140,7 @@
         <!-- team 2 -->
         <nb-card>
             <nb-card-header>
-                Takım 2
+                Takım 2 - Blue Side
             </nb-card-header>
             <nb-card-body>
                 <div class="row  mt-20">
@@ -136,7 +148,7 @@
                         <nb-card>
                             <nb-card-header>
                                 <nb-user [name]="player.summonerName"
-                                    picture="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/champion/{{player.championName}}.png">
+                                    picture="/assets/dragontail/dragontail/img/champion/{{player.championName}}.png">
                                 </nb-user>
                             </nb-card-header>
                             <nb-card-body>
@@ -158,29 +170,29 @@
                                         <div class="col-6">
                                             <label class="label">Spells</label>
                                             <img class="spell-image"
-                                                src="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/spell/{{player.spell1Name}}.png">
+                                                src="/assets/dragontail/dragontail/img/spell/{{player.spell1Name}}.png">
                                         </div>
                                         <div class="col-6">
                                             <img class="spell-image mt-10"
-                                                src="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/spell/{{player.spell2Name}}.png">
+                                                src="/assets/dragontail/dragontail/img/spell/{{player.spell2Name}}.png">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <label class="label">Runes</label>
                                         <div class="col-6">
                                             <img class="spell-image"
-                                                src="/assets/dragontail-{{ddVersion}}/img/{{player.perks.perkStyleName}}">
+                                                src="/assets/dragontail/img/{{player.perks.perkStyleName}}">
                                         </div>
                                         <div class="col-6">
                                             <img class="spell-image mt-10"
-                                                src="/assets/dragontail-{{ddVersion}}/img/{{player.perks.perkSubStyleName}}">
+                                                src="/assets/dragontail/img/{{player.perks.perkSubStyleName}}">
                                         </div>
                                     </div>
                                 </div>
                                 <!--. SUMMONER SPELLS and RUNES-->
                             </nb-card-body>
                             <nb-card-footer>
-                                Win Rate {{player.wins/ (player.wins + player.losses) | number : '1.2-2'}}
+                                Win Rate {{player.wins/(player.wins + player.losses) | number : '1.2-2'}}
                             </nb-card-footer>
                         </nb-card>
                     </div>
@@ -192,13 +204,14 @@
                     <div class="col-2" *ngFor="let champ of team2BannedChamps">
                         <nb-card-body>
                             <nb-user [name]="champ.championName"
-                                picture="/assets/dragontail-{{ddVersion}}/{{ddVersion}}/img/champion/{{champ.championName}}.png">
+                                picture="/assets/dragontail/dragontail/img/champion/{{champ.championName}}.png">
                             </nb-user>
                         </nb-card-body>
                     </div>
                 </div>
-                <!--. team 2 banned champs -->
+                <!--. team 1 banned champs -->
             </nb-card-body>
+
         </nb-card>
         <!--. team 2 -->
     </nb-card-body>

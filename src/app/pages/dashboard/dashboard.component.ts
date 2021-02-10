@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { JsonData } from 'app/@core/data/json-data';
+import { ServerData } from 'app/@core/data/servers-data';
 import { SpectatorData } from 'app/@core/data/spectator-data';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
+import { ServerModel } from 'app/@core/models/server-models/free-champs';
 import { BannedChampion, CurrentGameInfo, CurrentGameParticipant } from 'app/@core/models/spectator/spectator-model';
 import { globalVariables } from 'globalVariables';
 
@@ -15,16 +17,31 @@ import { globalVariables } from 'globalVariables';
 export class DashboardComponent implements OnInit {
 
   summonerName: string;
+  routedServer = null;
+  routedSummoner = null;
   constructor(
     private spectatorService: SpectatorData,
     private jsonService: JsonData,
+    private serverService: ServerData,
     private toast: NbToastrService,
-    private router: Router) {
+    private router: Router,
+    private route: ActivatedRoute) {
+      this.routedServer = this.route.snapshot.paramMap.get('server');
+      this.routedSummoner = this.route.snapshot.paramMap.get('summonerName');
+      this.getData();
+      this.getServers();
+      if (this.routedServer !== null && this.routedSummoner !== null) {
+        this.server = this.routedServer;
+        this.summonerName = this.routedSummoner;
+        this.getLiveMatch();
+      }
   }
   ddVersion = globalVariables.ddVersion;
   team1: CurrentGameParticipant[] = [];
   team1BannedChamps: BannedChampion[] = [];
   team2 = [];
+  servers: ServerModel;
+  server: string = 'tr';
   team2BannedChamps: BannedChampion[] = [];
   currentGameInfo: CurrentGameInfo;
   champData;
@@ -32,8 +49,13 @@ export class DashboardComponent implements OnInit {
   runesReforged: RunesReforged[] = [];
   promise;
   ngOnInit() {
-    this.getData();
     // this.getLiveMatchMock();
+  }
+
+  getServers() {
+    this.serverService.getServers().subscribe(r => {
+      this.servers = r.data;
+    });
   }
 
   getData() {
@@ -55,11 +77,14 @@ export class DashboardComponent implements OnInit {
   }
 
   getLiveMatch() {
+    this.router.navigate(['/pages/live-tracking/' + this.server + '/' + this.summonerName])
     this.promise.then(res => {
-      this.spectatorService.getSummonerActiveGame(this.summonerName)
+      this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
       .subscribe(result => {
-        if (result === null) {
+        if (result.data === null) {
           this.toast.danger('Bulunamadı', 'Sihirdar aktif bir oyunda değil!');
+          this.router.navigate(['/pages/live-tracking'])
+
           return;
         }
         this.currentGameInfo = result.data;
@@ -104,7 +129,7 @@ export class DashboardComponent implements OnInit {
     if (this.summonerName !== null &&
       this.summonerName !== undefined &&
       this.summonerName !== '') {
-      this.spectatorService.getSummonerActiveGame(this.summonerName)
+      this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
       .subscribe(result => {
       });
     } else {
@@ -113,7 +138,7 @@ export class DashboardComponent implements OnInit {
   }
 
   routeBack() {
-    this.router.navigate(['pages/free-champs']);
+    this.router.navigate(['pages/live-tracking']);
   }
 
   findChampion(id: number) {

@@ -12,6 +12,8 @@ import { SpectatorData } from './data/spectator-data';
 import { SpectatorService } from './utils/spectator.service';
 import { JsonData } from './data/json-data';
 import { JsonService } from './utils/json.service';
+import { ServerData } from './data/servers-data';
+import { ServerService } from './utils/servers.service';
 
 const socialLinks = [
   {
@@ -35,6 +37,7 @@ const DATA_SERVICES = [
   { provide: ChampionData, useClass: ChampionService },
   { provide: SpectatorData, useClass: SpectatorService },
   { provide: JsonData, useClass: JsonService },
+  { provide: ServerData, useClass: ServerService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChampionData } from 'app/@core/data/champion-data';
 import { JsonData } from 'app/@core/data/json-data';
 import { FreeChampions } from 'app/@core/models/champion-models/free-champs';
+import { ServerService } from 'app/@core/utils/servers.service';
 @Component({
   selector: 'ngx-free-champ-rotation',
   templateUrl: './free-champ-rotation.component.html',

@@ -44,6 +44,9 @@ export class CurrentGameParticipant {
     public teamId: number;
     public summonerName: string;
     public summonerId: string;
+    public leaguePoints: number;
+    public tier: string;
+    public rank: string;
     public wins: number;
     public losses: number;
     public spell1Id: number;

@@ -3,5 +3,5 @@ import { ApiResult } from '../models/api-result';
 import { CurrentGameInfo } from '../models/spectator/spectator-model';
 
 export abstract class SpectatorData {
-    abstract getSummonerActiveGame(summonerName: string): Observable<ApiResult<CurrentGameInfo>>;
+    abstract getSummonerActiveGame(summonerName: string, server: string): Observable<ApiResult<CurrentGameInfo>>;
 }
