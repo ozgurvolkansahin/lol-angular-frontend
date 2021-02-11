@@ -14,6 +14,10 @@ import { JsonData } from './data/json-data';
 import { JsonService } from './utils/json.service';
 import { ServerData } from './data/servers-data';
 import { ServerService } from './utils/servers.service';
+import { EntryData } from './data/entry-data';
+import { EntryService } from './utils/entry.service';
+import { MatchIDData } from './data/matchID-data';
+import { MatchIDService } from './utils/matchID.service';
 
 const socialLinks = [
   {
@@ -38,6 +42,8 @@ const DATA_SERVICES = [
   { provide: SpectatorData, useClass: SpectatorService },
   { provide: JsonData, useClass: JsonService },
   { provide: ServerData, useClass: ServerService },
+  { provide: MatchIDData, useClass: MatchIDService },
+  { provide: EntryData, useClass: EntryService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

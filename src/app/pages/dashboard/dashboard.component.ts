@@ -5,7 +5,7 @@ import { JsonData } from 'app/@core/data/json-data';
 import { ServerData } from 'app/@core/data/servers-data';
 import { SpectatorData } from 'app/@core/data/spectator-data';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
-import { ServerModel } from 'app/@core/models/server-models/free-champs';
+import { ServerModel } from 'app/@core/models/server-models/server-model';
 import { BannedChampion, CurrentGameInfo, CurrentGameParticipant } from 'app/@core/models/spectator/spectator-model';
 import { globalVariables } from 'globalVariables';
 

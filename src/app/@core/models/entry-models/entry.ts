@@ -1,19 +1,25 @@
-export interface MatchListDto {
-    startIndex: number;
-    totalGames: number;
-    endIndex: number;
-    matches: MatchReferenceDto[];
+export interface Entry {
+    leagueId: string;
+    summonerId: string;
+    summonerName: string;
+    server: string;
+    queueType: string;
+    tier: string;
+    rank: string;
+    leaguePoints: number;
+    wins: number;
+    losses: number;
+    hotStreak: boolean;
+    veteran: boolean;
+    freshBlood: boolean;
+    inactive: boolean;
     date: Date;
+    miniSeries: MiniSeriesDTO;
 }
-export interface MatchReferenceDto {
-    gameId: string;
-    role: string;
-    season: number;
-    platformId: string;
-    champion: number;
-    queue: number;
-    lane: string;
-    timestamp: string;
+export interface MiniSeriesDTO {
+    losses: number;
+    progress: string;
+    wins: number;
     date: Date;
 }
 

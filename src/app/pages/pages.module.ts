@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbCardModule, NbInputModule, NbMenuModule } from '@nebular/theme';
+import { NbAccordionModule, NbCardModule, NbInputModule, NbMenuModule, NbUserModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -9,6 +9,8 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rotation.component';
 import { ChampDetailsComponent } from './champ-details/champ-details.component';
 import { SummonerDetailComponent } from './summoner-detail/summoner-detail.component';
+import { RankedPipe } from 'app/utility/pipe/ranked.pipe';
+import { UtilityModule } from 'app/utility/utility.module';
 
 @NgModule({
   imports: [
@@ -19,6 +21,9 @@ import { SummonerDetailComponent } from './summoner-detail/summoner-detail.compo
     DashboardModule,
     MiscellaneousModule,
     NbInputModule,
+    NbUserModule,
+    NbAccordionModule,
+    UtilityModule,
   ],
   declarations: [
     PagesComponent,

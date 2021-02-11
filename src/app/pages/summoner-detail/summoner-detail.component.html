@@ -1,11 +1,81 @@
-<nb-card>
-    <nb-card-header>
+<!-- <div class="row">
+    <div class="col-4">
+        <nb-card *ngIf="summonerEntryData">
+            <nb-card-header>
+                Sihirdar Bilgileri
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row" *ngFor="let data of summonerEntryData">
+                    <div class="col-12">
+                        <nb-user [name]="data.summonerName"
+                        [title]="data.tier + ' ' + data.rank + ' - ' + data.leaguePoints + ' LP'"
+                        picture="/assets/ranked-emblems/Emblem_{{data.tier}}.png">
+                        </nb-user>
+                    </div>
+                <div class="row" *ngFor="let data of summonerEntryData">
+                    <div class="col-12">
+                        <nb-user [name]="data.summonerName"
+                        [title]="data.tier + ' ' + data.rank + ' - ' + data.leaguePoints + ' LP'"
+                        picture="/assets/ranked-emblems/Emblem_{{data.tier}}.png">
+                        </nb-user>
+                    </div>
+                </div>
+            </nb-card-body>
+            <nb-card-footer>
+                
+            </nb-card-footer>
+        </nb-card>
+    </div>
+</div> -->
 
-    </nb-card-header>
-    <nb-card-body>
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <nb-card *ngIf="summonerEntryData">
+            <nb-card-header>
+                {{summonerEntryData[0].summonerName}} - Ranked Info
+            </nb-card-header>
+            <nb-card-body>
+                <nb-accordion>
+                    <nb-accordion-item
+                    [expanded]="true"
+                    *ngFor="let data of summonerEntryData">
+                        <nb-accordion-item-header>{{data.queueType | ranked}}</nb-accordion-item-header>
+                        <nb-accordion-item-body>
+                        <div class="row justify-content-center">
+                                <div class="col-5">
+                                    <label class="label label-tier">
+                                        {{data.tier}} {{data.rank}} - {{data.leaguePoints}} LP
+                                    </label>    
+                                    <img src="/assets/ranked-emblems/Emblem_{{data.tier}}.png" alt=""
+                                    width="120px"
+                                    height="120px">
+                                </div>
+                                <div class="col-7">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-3 col-sm-6">
+                                            <label class="label label-win">{{data.wins}} Wins</label>                    
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <label class="label label-lose">{{data.losses}} Losses</label>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <label class="label label-lose">{{data.wins / (data.wins + data.losses) | number : '1.2-2'}}% Win Rate</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nb-accordion-item-body>
+                    </nb-accordion-item>
+                    </nb-accordion>
+            </nb-card-body>
+            <nb-card-footer>
+                
+            </nb-card-footer>
+        </nb-card>
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <nb-card>
 
-    </nb-card-body>
-    <nb-card-footer>
-        
-    </nb-card-footer>
-</nb-card>
+        </nb-card>
+    </div>
+</div>
