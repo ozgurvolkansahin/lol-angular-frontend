@@ -1,3 +1,5 @@
+import { MatchDTO, ParticipantDto } from './matchListDto';
+
 export interface MatchListDto {
     startIndex: number;
     totalGames: number;
@@ -11,9 +13,12 @@ export interface MatchReferenceDto {
     season: number;
     platformId: string;
     champion: number;
+    championName: string;
     queue: number;
     lane: string;
-    timestamp: string;
+    timestamp: number;
+    matchDTO: MatchDTO;
+    summonerMatchDetail: ParticipantDto;
     date: Date;
 }
 

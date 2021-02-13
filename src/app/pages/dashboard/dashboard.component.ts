@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(result => {
         if (result.data === null) {
           this.toast.danger('Bulunamadı', 'Sihirdar aktif bir oyunda değil!');
-          this.router.navigate(['/pages/live-tracking'])
+          this.router.navigate(['/pages/live-tracking']);
 
           return;
         }

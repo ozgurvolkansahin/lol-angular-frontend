@@ -6,10 +6,9 @@ import { MENU_ITEMS } from './pages-menu';
   selector: 'ngx-pages',
   styleUrls: ['pages.component.scss'],
   template: `
-    <ngx-one-column-layout>
-      <nb-menu [items]="menu"></nb-menu>
+    <ngx-three-columns-layout>
       <router-outlet></router-outlet>
-    </ngx-one-column-layout>
+    </ngx-three-columns-layout>
   `,
 })
 export class PagesComponent {

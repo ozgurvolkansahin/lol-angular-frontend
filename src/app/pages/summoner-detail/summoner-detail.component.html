@@ -29,37 +29,40 @@
 </div> -->
 
 <div class="row">
-    <div class="col-md-4 col-sm-12">
+    <div class="col-md-3 col-sm-12">
         <nb-card *ngIf="summonerEntryData">
             <nb-card-header>
                 {{summonerEntryData[0].summonerName}} - Ranked Info
             </nb-card-header>
             <nb-card-body>
-                <nb-accordion>
+                <nb-accordion
+                [multi]="true">
                     <nb-accordion-item
                     [expanded]="true"
                     *ngFor="let data of summonerEntryData">
                         <nb-accordion-item-header>{{data.queueType | ranked}}</nb-accordion-item-header>
                         <nb-accordion-item-body>
                         <div class="row justify-content-center">
-                                <div class="col-5">
-                                    <label class="label label-tier">
-                                        {{data.tier}} {{data.rank}} - {{data.leaguePoints}} LP
-                                    </label>    
+                            <div class="col-12">
+                                <label class="label label-tier">
+                                    {{data.tier}} {{data.rank}} - {{data.leaguePoints}} LP
+                                </label>    
+                            </div>
+                                <div class="col-md-6 col-sm-12">
                                     <img src="/assets/ranked-emblems/Emblem_{{data.tier}}.png" alt=""
-                                    width="120px"
-                                    height="120px">
+                                    width="100px"
+                                    height="100px">
                                 </div>
-                                <div class="col-7">
+                                <div class="col-md-6 col-sm-12">
                                     <div class="row justify-content-center">
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-12 col-sm-12">
                                             <label class="label label-win">{{data.wins}} Wins</label>                    
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class="col-md-12 col-sm-12">
                                             <label class="label label-lose">{{data.losses}} Losses</label>
                                         </div>
-                                        <div class="col-md-4 col-sm-6">
-                                            <label class="label label-lose">{{data.wins / (data.wins + data.losses) | number : '1.2-2'}}% Win Rate</label>
+                                        <div class="col-md-12 col-sm-12">
+                                            <label class="label label-ratio">{{data.wins / (data.wins + data.losses) | number : '1.2-2'}}% Win Rate</label>
                                         </div>
                                     </div>
                                 </div>
@@ -73,9 +76,50 @@
             </nb-card-footer>
         </nb-card>
     </div>
-    <div class="col-md-8 col-sm-12">
-        <nb-card>
-
+    <div class="col-md-9 col-sm-12">
+        <nb-card [size]="'large'"
+        style="padding: 0 0 0 0 !important;">
+            <nb-card-header>
+                Match History
+            </nb-card-header>
+            <nb-list>
+                <nb-list-item class="history-padding"
+                *ngFor="let match of matchData; let i = index">
+                    <nb-card-body class="rounded-border"
+                    [ngClass]="{'win-bg': match.summonerMatchDetail.stats.win,
+                    'loss-bg': !match.summonerMatchDetail.stats.win}">
+                            <div class="col-md-4 col-sm-12 align-team1 border-right zero-padding">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 zero-padding">
+                                        <ngx-summoner-match-info
+                                        [summonerInfo]="match.summonerMatchDetail">
+                                        </ngx-summoner-match-info>
+                                        <label class="label label-white">
+                                            Oyun süresi: {{match.matchDTO.gameDuration | timing: 'HH:MM'}}
+                                        </label>
+                                        <br>
+                                        <label class="label label-white">
+                                            {{match.timestamp | date: 'dd/MM/yyyy HH:MM'}}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="row">
+                                            {{match.matchDTO.gameMode | gamemode}}
+                                        </div>
+                                        <div class="row">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-12 align-team2">
+                                <ngx-summoner-match-item-table>
+        
+                                </ngx-summoner-match-item-table>
+                            </div>
+                        </nb-card-body>
+                </nb-list-item>
+            </nb-list>
         </nb-card>
     </div>
 </div>
