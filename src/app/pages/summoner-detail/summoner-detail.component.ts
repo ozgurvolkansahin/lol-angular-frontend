@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EntryData } from 'app/@core/data/entry-data';
 import { JsonData } from 'app/@core/data/json-data';
 import { MatchIDData } from 'app/@core/data/matchID-data';
@@ -25,28 +25,20 @@ export class SummonerDetailComponent implements OnInit {
   constructor(private matchIDService: MatchIDData,
     private entryService: EntryData,
     private route: ActivatedRoute,
-    private jsonService: JsonData) {
+    private jsonService: JsonData,
+    private router: Router) {
       this.getData();
-      // const routedServer = this.route.snapshot.paramMap.get('server');
-      // const routedSummoner = this.route.snapshot.paramMap.get('summonerName');
+      const routedServer = this.route.snapshot.paramMap.get('server');
+      const routedSummoner = this.route.snapshot.paramMap.get('summonerName');
       this.promise.then((res) => {
-        matchIDService.getMatchData('zipacna', 'tr').subscribe(r => {
-        this.matchData = r.data;
-        r.data.forEach(x => {
-          x.summonerMatchDetail.championName = this.findChampion(x.summonerMatchDetail.championId);
-        });
-      });
-      entryService.getEntryData('zipacna', 'tr').subscribe(r => {
-        this.summonerEntryData = r.data;
-        this.summonerEntryData.forEach(x => {
-          x.tier = x.tier.substring(0, 1) + x.tier.substring(1).toLowerCase();
-        });
-      });
+        this.getMatchData(routedSummoner, routedServer);
+        this.getEntryData(routedSummoner, routedServer);
       });
   }
 
   ngOnInit(): void {
   }
+
   getData() {
     this.promise = new Promise((resolve, reject) => {
       this.jsonService.getChampionJSONData()
@@ -65,6 +57,28 @@ export class SummonerDetailComponent implements OnInit {
     });
   }
 
+  getMatchData(summonerName?: string, server?: string) {
+    this.matchIDService.getMatchData(summonerName, server).subscribe(r => {
+      this.matchData = r.data;
+      r.data.forEach(x => {
+        x.summonerMatchDetail.championName = this.findChampion(x.summonerMatchDetail.championId);
+        x.summonerMatchDetail.perkPrimaryStyleName = this.findRunes(x.summonerMatchDetail.stats.perkPrimaryStyle);
+        x.summonerMatchDetail.perkSubStyleName = this.findRunes(x.summonerMatchDetail.stats.perkSubStyle);
+        x.summonerMatchDetail.spell1Name = this.findSpells(x.summonerMatchDetail.spell1Id);
+        x.summonerMatchDetail.spell2Name = this.findSpells(x.summonerMatchDetail.spell2Id);
+      });
+    });
+  }
+
+  getEntryData(summonerName?: string, server?: string) {
+    this.entryService.getEntryData(summonerName, server).subscribe(r => {
+      this.summonerEntryData = r.data;
+      this.summonerEntryData.forEach(x => {
+        x.tier = x.tier.substring(0, 1) + x.tier.substring(1).toLowerCase();
+      });
+    });
+  }
+
   findChampion(id: number) {
     return Object.keys(this.champData).find(key => +this.champData[key].key === id);
   }
@@ -75,5 +89,10 @@ export class SummonerDetailComponent implements OnInit {
 
   findRunes(id: number) {
     return this.runesReforged.find(x => x.id === id).icon;
+  }
+
+  onSummonerFromTableSelected(e) {
+    // this.router.navigate([]);
+    window.location.replace(`pages/summoner-detail/${e.server}/${e.summonerName}`);
   }
 }

@@ -1,1 +1,72 @@
-sadas
+<section id="match-history" class="match-history">
+    <div class="container">
+      <div
+      class="row">
+        <div class="col-xs-6 col-lg-6">
+            <div class="row" id="inline-row" *ngFor="let item of team1">
+                <div class="item"
+                style="background-image: url('http://pm1.narvii.com/5803/08cdbfca778b5d158556a22431631e79d3a481f5_00.jpg');"
+                ></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item5}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item4}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item3}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item2}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item1}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item0}}.png');"></div>
+                <div class="kda">{{item.stats.kills}}</div>
+                <div class="kda">{{item.stats.deaths}}</div>
+                <div class="kda">{{item.stats.assists}}</div>
+                <div class="champion"
+                style="background-image: url('/assets/dragontail/dragontail/img/champion/{{item.championName}}.png')"
+                nbTooltip="{{item.championName}}"
+                ></div>
+                <div class="summoner-name"
+                style="cursor: pointer;"
+                (click)="onSummonerSelect(item.participant.player.summonerName,
+                item.participant.player.platformId.toLowerCase())"
+                nbTooltip="{{item.participant.player.summonerName}}"
+                nbButton>{{item.participant.player.summonerName}}</div>
+            </div>
+        </div>
+  
+        <div class="col-xs-6 col-lg-6">
+            <div class="row" id="inline-row"
+            *ngFor="let item of team2">
+            <div class="summoner-name"
+            style="cursor: pointer;"
+            (click)="onSummonerSelect(item.participant.player.summonerName,
+            item.participant.player.platformId.toLowerCase())"
+            nbTooltip="{{item.participant.player.summonerName}}"
+            nbButton>{{item.participant.player.summonerName}}</div>
+                <div class="champion"
+                style="background-image: url('/assets/dragontail/dragontail/img/champion/{{item.championName}}.png')"
+                nbTooltip="{{item.championName}}"
+                ></div>
+                <div class="kda">{{item.stats.kills}}</div>
+                <div class="kda">{{item.stats.deaths}}</div>
+                <div class="kda">{{item.stats.assists}}</div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item0}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item1}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item2}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item3}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item4}}.png');"></div>
+                <div class="item"
+                style="background-image: url('/assets/dragontail/dragontail/img/item/{{item.stats.item5}}.png');"></div>
+                <div class="item"
+                style="background-image: url('http://pm1.narvii.com/5803/08cdbfca778b5d158556a22431631e79d3a481f5_00.jpg');"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </section>

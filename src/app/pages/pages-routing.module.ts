@@ -21,7 +21,7 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path: 'summoner-detail',
+      path: 'summoner-detail/:server/:summonerName',
       component: SummonerDetailComponent,
     },
     {

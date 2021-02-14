@@ -61,8 +61,13 @@ export interface TeamBansDto {
 
 export interface ParticipantDto {
     participantId: number;
+    participant: ParticipantIdentityDto;
     championId: number;
     championName: string;
+    perkPrimaryStyleName: string;
+    perkSubStyleName: string;
+    spell1Name: string;
+    spell2Name: string;
     runes: RuneDto[];
     stats: ParticipantStatsDto;
     teamId: number;
