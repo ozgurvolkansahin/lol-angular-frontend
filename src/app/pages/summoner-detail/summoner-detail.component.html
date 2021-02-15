@@ -85,10 +85,10 @@
             <nb-list>
                 <nb-list-item class="history-padding"
                 *ngFor="let match of matchData; let i = index">
-                    <nb-card-body class="rounded-border"
+                    <nb-card-body class="rounded-border low-padding"
                     [ngClass]="{'win-bg': match.summonerMatchDetail.stats.win,
                     'loss-bg': !match.summonerMatchDetail.stats.win}">
-                            <div class="col-md-5 col-sm-12 align-team1 border-right zero-padding">
+                            <div class="col-md-4 col-sm-12 align-team1 border-right zero-padding">
                                 <div class="row">
                                     <div class="col-md-4 col-sm-12 zero-padding">
                                         <ngx-summoner-match-info
@@ -104,14 +104,15 @@
                                     </div>
                                     <div class="col-md-7 col-sm-12">
                                         <div class="row justify-content-center">
-                                            <b>{{match.matchDTO.gameMode | gamemode}}</b>
+                                            <label class="label label-white">{{match.matchDTO.gameMode | gamemode}}
+                                                </label>
                                         </div>
-                                        <hr class="hr-no-margin">
+                                        <!-- <hr class="hr-no-margin"> -->
                                         <div class="row justify-content-center">
-                                            <b>KDA: {{match.summonerMatchDetail.stats.kills}} /
+                                            <label class="label label-white">KDA: {{match.summonerMatchDetail.stats.kills}} /
                                             {{match.summonerMatchDetail.stats.deaths}} /
-                                            {{match.summonerMatchDetail.stats.assists}}</b> --
-                                            <b> CS: {{match.summonerMatchDetail.stats.totalMinionsKilled}}</b>
+                                            {{match.summonerMatchDetail.stats.assists}} --
+                                            CS: {{match.summonerMatchDetail.stats.totalMinionsKilled}}</label>
                                         </div>
                                         <div class="row justify-content-center mt-10">
                                             <div class="col-2 zero-padding"
@@ -202,7 +203,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-7 col-sm-12 align-team2">
+                            <div class="col-md-8 col-sm-12 align-team2">
                                 <ngx-summoner-match-item-table
                                 (summonerName)="onSummonerFromTableSelected($event)"
                                 [matchData]="match.matchDTO"
