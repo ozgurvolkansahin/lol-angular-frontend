@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChampionMasteryData } from 'app/@core/data/championMastery-data';
+import { ChampionWLData } from 'app/@core/data/championWL-data';
 import { EntryData } from 'app/@core/data/entry-data';
 import { JsonData } from 'app/@core/data/json-data';
 import { MatchIDData } from 'app/@core/data/matchID-data';
+import { ChampionMasteriesModel } from 'app/@core/models/champion-masteries-models/champion-masteries';
 import { Entry } from 'app/@core/models/entry-models/entry';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
-import { MatchListDto, MatchReferenceDto } from 'app/@core/models/match-models/match';
-import { MatchDTO, ParticipantDto } from 'app/@core/models/match-models/matchListDto';
+import { MatchReferenceDto } from 'app/@core/models/match-models/match';
+import { ParticipantDto } from 'app/@core/models/match-models/matchListDto';
 
 @Component({
   selector: 'ngx-summoner-detail',
@@ -15,7 +18,9 @@ import { MatchDTO, ParticipantDto } from 'app/@core/models/match-models/matchLis
 })
 export class SummonerDetailComponent implements OnInit {
   matchData: MatchReferenceDto[];
+  wlData: any;
   summonerEntryData: Entry[];
+  summonerChampionMasteryData: ChampionMasteriesModel;
   summonerInfo: ParticipantDto;
   champData;
   summonerJsonData;
@@ -24,6 +29,8 @@ export class SummonerDetailComponent implements OnInit {
 
   constructor(private matchIDService: MatchIDData,
     private entryService: EntryData,
+    private championMasteryService: ChampionMasteryData,
+    private wlService: ChampionWLData,
     private route: ActivatedRoute,
     private jsonService: JsonData,
     private router: Router) {
@@ -33,6 +40,8 @@ export class SummonerDetailComponent implements OnInit {
       this.promise.then((res) => {
         this.getMatchData(routedSummoner, routedServer);
         this.getEntryData(routedSummoner, routedServer);
+        this.getChampionMasteryData(routedSummoner, routedServer);
+        this.getWLData(routedSummoner, routedServer);
       });
   }
 
@@ -76,6 +85,31 @@ export class SummonerDetailComponent implements OnInit {
       this.summonerEntryData.forEach(x => {
         x.tier = x.tier.substring(0, 1) + x.tier.substring(1).toLowerCase();
       });
+    });
+  }
+
+  getWLData(summonerName?: string, server?: string) {
+    this.wlService.getWL(summonerName, server).subscribe(r => {
+      this.wlData = r.data;
+      this.wlData.forEach(x => {
+        x.championName = this.findChampion(x[0].champion);
+        x.totalKills = (x.reduce((sum, x) => sum + x.kills, 0) / x.length).toFixed(2);
+        x.totalAssists = (x.reduce((sum, x) => sum + x.assists, 0) / x.length).toFixed(2);
+        x.totalDeaths = (x.reduce((sum, x) => sum + x.deaths, 0) / x.length).toFixed(2);
+        x.winRate = (x.filter(x => x.win).length / x.length * 100).toFixed(2);
+      });
+    });
+  }
+
+  getChampionMasteryData(summonerName?: string, server?: string) {
+    this.championMasteryService.getChampionMasteries(summonerName, server).subscribe(r => {
+      // data returns as ordered DESC
+      this.summonerChampionMasteryData = r.data;
+      this.summonerChampionMasteryData.championMasteries.forEach(x => {
+        x.championName = this.findChampion(x.championId);
+      });
+      // this.summonerChampionMasteryData.championMasteries
+      // .map(x => Object.assign({}, x.championName = this.findChampion(x.championId)))
     });
   }
 

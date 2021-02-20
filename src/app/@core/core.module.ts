@@ -18,6 +18,10 @@ import { EntryData } from './data/entry-data';
 import { EntryService } from './utils/entry.service';
 import { MatchIDData } from './data/matchID-data';
 import { MatchIDService } from './utils/matchID.service';
+import { ChampionMasteryData } from './data/championMastery-data';
+import { ChampionMasteryService } from './utils/championMastery.service';
+import { ChampionWLData } from './data/championWL-data';
+import { ChampionWLService } from './utils/championWL.service';
 
 const socialLinks = [
   {
@@ -44,6 +48,8 @@ const DATA_SERVICES = [
   { provide: ServerData, useClass: ServerService },
   { provide: MatchIDData, useClass: MatchIDService },
   { provide: EntryData, useClass: EntryService },
+  { provide: ChampionMasteryData, useClass: ChampionMasteryService },
+  { provide: ChampionWLData, useClass: ChampionWLService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {

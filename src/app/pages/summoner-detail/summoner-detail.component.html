@@ -34,184 +34,174 @@
             <nb-card-header>
                 {{summonerEntryData[0].summonerName}} - Ranked Info
             </nb-card-header>
-            <nb-card-body>
-                <nb-accordion
-                [multi]="true">
-                    <nb-accordion-item
-                    [expanded]="true"
-                    *ngFor="let data of summonerEntryData">
-                        <nb-accordion-item-header>{{data.queueType | ranked}}</nb-accordion-item-header>
-                        <nb-accordion-item-body>
+            <nb-card-body *ngFor="let data of summonerEntryData">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <label class="label label-tier">
+                            {{data.queueType | ranked}}: {{data.tier}} {{data.rank}} - {{data.leaguePoints}} LP
+                        </label>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <img src="/assets/ranked-emblems/Emblem_{{data.tier}}.png" alt="" width="100px" height="100px">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
                         <div class="row justify-content-center">
-                            <div class="col-12">
-                                <label class="label label-tier">
-                                    {{data.tier}} {{data.rank}} - {{data.leaguePoints}} LP
-                                </label>    
+                            <div class="col-md-12 col-sm-12">
+                                <label class="label label-win">{{data.wins}} Wins</label>
                             </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <img src="/assets/ranked-emblems/Emblem_{{data.tier}}.png" alt=""
-                                    width="100px"
-                                    height="100px">
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-12 col-sm-12">
-                                            <label class="label label-win">{{data.wins}} Wins</label>                    
-                                        </div>
-                                        <div class="col-md-12 col-sm-12">
-                                            <label class="label label-lose">{{data.losses}} Losses</label>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12">
-                                            <label class="label label-ratio">{{(data.wins / (data.wins + data.losses) )* 100 | number : '1.2-2'}}% Win Rate</label>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="label label-lose">{{data.losses}} Losses</label>
                             </div>
-                        </nb-accordion-item-body>
-                    </nb-accordion-item>
-                    </nb-accordion>
+                            <div class="col-md-12 col-sm-12">
+                                <label
+                                    class="label label-ratio">{{(data.wins / (data.wins + data.losses) )* 100 | number : '1.2-2'}}%
+                                    Win Rate</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </nb-card-body>
-            <nb-card-footer>
-                
-            </nb-card-footer>
+        </nb-card>
+        <nb-card [size]="'medium'" *ngIf="summonerChampionMasteryData">
+            <nb-card-header>
+                Champion Masteries
+            </nb-card-header>
+            <nb-list>
+                <nb-list-item *ngFor="let data of summonerChampionMasteryData.championMasteries | slice: 0:10; let i = index">
+                <div class="row justify-content-center" *ngIf="i<10">
+                    <div class="col-12">
+                        <nb-user size="medium"
+                            [name]="data.championName"
+                            [title]="data.championPoints"
+                            picture="/assets/dragontail/dragontail/img/champion/{{data.championName}}.png">
+                        </nb-user>
+                        <label class="label label-white">
+                            Last Played: {{data.lastPlayTime | date: 'dd/MM/yyyy HH:MM'}}
+                        </label>
+                    </div>
+                </div>
+            </nb-list-item>
+            </nb-list>
         </nb-card>
     </div>
     <div class="col-md-9 col-sm-12">
-        <nb-card [size]="'large'"
-        style="padding: 0 0 0 0 !important;">
+        <nb-card [size]="'large'" style="padding: 0 0 0 0 !important;">
             <nb-card-header>
                 Match History
             </nb-card-header>
             <nb-list>
-                <nb-list-item class="history-padding"
-                *ngFor="let match of matchData; let i = index">
-                    <nb-card-body class="rounded-border low-padding"
-                    [ngClass]="{'win-bg': match.summonerMatchDetail.stats.win,
+                <nb-list-item *ngIf="wlData">
+                    <div class="col-md-3 col-sm-12"
+                    *ngFor="let item of wlData; let i = index">
+                        <nb-user 
+                            *ngIf="i < 4"
+                            size="medium"
+                            [name]="item.length + ' Matches ' + '(' +item.winRate + '%)'"
+                            [title]="item.totalKills + '/' + item.totalDeaths + '/' + item.totalAssists"
+                            picture="/assets/dragontail/dragontail/img/champion/{{item.championName}}.png">
+                        </nb-user>
+                    </div>
+                </nb-list-item>
+                <nb-list-item class="history-padding" *ngFor="let match of matchData; let i = index">
+                    <nb-card-body class="rounded-border low-padding" [ngClass]="{'win-bg': match.summonerMatchDetail.stats.win,
                     'loss-bg': !match.summonerMatchDetail.stats.win}">
-                            <div class="col-md-4 col-sm-12 align-team1 border-right zero-padding">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12 zero-padding">
-                                        <ngx-summoner-match-info
-                                        [summonerInfo]="match.summonerMatchDetail">
-                                        </ngx-summoner-match-info>
-                                        <!-- <hr class="hr-no-margin"> -->
-                                        <label class="label label-white">
-                                            Süre: {{match.matchDTO.gameDuration | timing: 'HH:MM'}}
-                                        </label>
-                                        <label class="label label-white">
-                                            {{match.timestamp | date: 'dd/MM/yyyy HH:MM'}}
+                        <div class="col-md-4 col-sm-12 align-team1 border-right zero-padding">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 zero-padding">
+                                    <ngx-summoner-match-info [summonerInfo]="match.summonerMatchDetail">
+                                    </ngx-summoner-match-info>
+                                    <!-- <hr class="hr-no-margin"> -->
+                                    <label class="label label-white">
+                                        Süre: {{match.matchDTO.gameDuration | timing: 'HH:MM'}}
+                                    </label>
+                                    <label class="label label-white">
+                                        {{match.timestamp | date: 'dd/MM/yyyy HH:MM'}}
+                                    </label>
+                                </div>
+                                <div class="col-md-7 col-sm-12">
+                                    <div class="row justify-content-center">
+                                        <label class="label label-white">{{match.matchDTO.gameMode | gamemode}}
                                         </label>
                                     </div>
-                                    <div class="col-md-7 col-sm-12">
-                                        <div class="row justify-content-center">
-                                            <label class="label label-white">{{match.matchDTO.gameMode | gamemode}}
-                                                </label>
-                                        </div>
-                                        <!-- <hr class="hr-no-margin"> -->
-                                        <div class="row justify-content-center">
-                                            <label class="label label-white">KDA: {{match.summonerMatchDetail.stats.kills}} /
+                                    <!-- <hr class="hr-no-margin"> -->
+                                    <div class="row justify-content-center">
+                                        <label class="label label-white">KDA: {{match.summonerMatchDetail.stats.kills}}
+                                            /
                                             {{match.summonerMatchDetail.stats.deaths}} /
                                             {{match.summonerMatchDetail.stats.assists}} --
                                             CS: {{match.summonerMatchDetail.stats.totalMinionsKilled}}</label>
-                                        </div>
-                                        <div class="row justify-content-center mt-10">
-                                            <div class="col-2 zero-padding"
+                                    </div>
+                                    <div class="row justify-content-center mt-10">
+                                        <div class="col-2 zero-padding"
                                             *ngIf="match.summonerMatchDetail.stats.item0 !== 0">
-                                                <img class="item-border spell-bg"
+                                            <img class="item-border spell-bg"
                                                 src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item0}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 zero-padding"
-                                            *ngIf="match.summonerMatchDetail.stats.item1 !== 0">
-                                                <img class="item-border spell-bg"
-                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item1}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 zero-padding"
-                                            *ngIf="match.summonerMatchDetail.stats.item2 !== 0">
-                                                <img class="item-border spell-bg"
-                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item2}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 zero-padding"
-                                            *ngIf="match.summonerMatchDetail.stats.item3 !== 0">
-                                                <img class="item-border spell-bg"
-                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item3}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 zero-padding"
-                                            *ngIf="match.summonerMatchDetail.stats.item4 !== 0">
-                                                <img class="item-border spell-bg"
-                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item4}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 zero-padding"
-                                            *ngIf="match.summonerMatchDetail.stats.item5 !== 0">
-                                                <img class="item-border spell-bg"
-                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item5}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
+                                                alt="" width="30px" height="30px">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-2 mt-10"
-                                            *ngIf="match.summonerMatchDetail.perkPrimaryStyleName">
-                                                <img class="item-border spell-bg"
+                                        <div class="col-2 zero-padding"
+                                            *ngIf="match.summonerMatchDetail.stats.item1 !== 0">
+                                            <img class="item-border spell-bg"
+                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item1}}.png"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 zero-padding"
+                                            *ngIf="match.summonerMatchDetail.stats.item2 !== 0">
+                                            <img class="item-border spell-bg"
+                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item2}}.png"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 zero-padding"
+                                            *ngIf="match.summonerMatchDetail.stats.item3 !== 0">
+                                            <img class="item-border spell-bg"
+                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item3}}.png"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 zero-padding"
+                                            *ngIf="match.summonerMatchDetail.stats.item4 !== 0">
+                                            <img class="item-border spell-bg"
+                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item4}}.png"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 zero-padding"
+                                            *ngIf="match.summonerMatchDetail.stats.item5 !== 0">
+                                            <img class="item-border spell-bg"
+                                                src="/assets/dragontail/dragontail/img/item/{{match.summonerMatchDetail.stats.item5}}.png"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2 mt-10" *ngIf="match.summonerMatchDetail.perkPrimaryStyleName">
+                                            <img class="item-border spell-bg"
                                                 src="/assets/dragontail/img/{{match.summonerMatchDetail.perkPrimaryStyleName}}"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 mt-10"
-                                            *ngIf="match.summonerMatchDetail.perkSubStyleName">
-                                                <img class="item-border spell-bg"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 mt-10" *ngIf="match.summonerMatchDetail.perkSubStyleName">
+                                            <img class="item-border spell-bg"
                                                 src="/assets/dragontail/img/{{match.summonerMatchDetail.perkSubStyleName}}"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-1 mt-10">
-                                            </div>
-                                            <div class="col-2 mt-10"
-                                            *ngIf="match.summonerMatchDetail.spell1Name">
-                                                <img class="item-border spell-bg"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-1 mt-10">
+                                        </div>
+                                        <div class="col-2 mt-10" *ngIf="match.summonerMatchDetail.spell1Name">
+                                            <img class="item-border spell-bg"
                                                 src="/assets/dragontail/dragontail/img/spell/{{match.summonerMatchDetail.spell1Name}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                            <div class="col-2 mt-10"
-                                            *ngIf="match.summonerMatchDetail.spell2Name">
-                                                <img class="item-border"
+                                                alt="" width="30px" height="30px">
+                                        </div>
+                                        <div class="col-2 mt-10" *ngIf="match.summonerMatchDetail.spell2Name">
+                                            <img class="item-border"
                                                 src="/assets/dragontail/dragontail/img/spell/{{match.summonerMatchDetail.spell2Name}}.png"
-                                                alt=""
-                                                width="30px"
-                                                height="30px">
-                                            </div>
-                                        </div>                                      
+                                                alt="" width="30px" height="30px">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-sm-12 align-team2">
-                                <ngx-summoner-match-item-table
-                                (summonerName)="onSummonerFromTableSelected($event)"
-                                [matchData]="match.matchDTO"
-                                [champData]="champData">
-        
-                                </ngx-summoner-match-item-table>
-                            </div>
-                        </nb-card-body>
+                        </div>
+                        <div class="col-md-8 col-sm-12 align-team2">
+                           <ngx-summoner-match-item-table (summonerName)="onSummonerFromTableSelected($event)"
+                                [matchData]="match.matchDTO" [champData]="champData">
+                            </ngx-summoner-match-item-table>
+                        </div>
+                    </nb-card-body>
                 </nb-list-item>
             </nb-list>
         </nb-card>

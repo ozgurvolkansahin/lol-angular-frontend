@@ -15,6 +15,10 @@ export interface MatchReferenceDto {
     champion: number;
     championName: string;
     queue: number;
+    kills: number;
+    deaths: number;
+    assists: number;
+    win: boolean;
     lane: string;
     timestamp: number;
     matchDTO: MatchDTO;
