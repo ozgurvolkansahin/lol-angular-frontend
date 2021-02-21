@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbAccordionModule, NbCardModule, NbInputModule, NbListModule, NbMenuModule, NbUserModule } from '@nebular/theme';
+import { NbAccordionModule, NbBadgeModule, NbCardModule, NbInputModule, NbListModule, NbMenuModule, NbUserModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -25,6 +25,7 @@ import { UtilityModule } from 'app/utility/utility.module';
     NbAccordionModule,
     UtilityModule,
     NbListModule,
+    NbBadgeModule,
   ],
   declarations: [
     PagesComponent,

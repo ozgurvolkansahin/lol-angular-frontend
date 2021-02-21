@@ -68,6 +68,7 @@ export interface ParticipantDto {
     perkSubStyleName: string;
     spell1Name: string;
     spell2Name: string;
+    mvp: boolean;
     runes: RuneDto[];
     stats: ParticipantStatsDto;
     teamId: number;

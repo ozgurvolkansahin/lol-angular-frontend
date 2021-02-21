@@ -41,8 +41,9 @@
                 <div class="row justify-content-center" *ngIf="i<10">
                     <div class="col-12">
                         <nb-user size="medium"
+                            style="position: relative;"
                             [name]="data.championName"
-                            [title]="data.championPoints"
+                            [title]="data.championPoints  | number"
                             picture="/assets/dragontail/dragontail/img/champion/{{data.championName}}.png">
                         </nb-user>
                         <label class="label label-white">
@@ -70,7 +71,7 @@
                             [title]="item.totalKills + '/' + item.totalDeaths + '/' + item.totalAssists"
                             picture="/assets/dragontail/dragontail/img/champion/{{item.championName}}.png">
                         </nb-user>
-                        <label class="label label-white">CS: {{item.minions}}</label>
+                        <label *ngIf="i < 4" class="label label-white">CS: {{item.minions}}</label>
                     </div>
                 </nb-list-item>
                 <nb-list-item class="history-padding" *ngFor="let match of matchData; let i = index">
@@ -78,7 +79,8 @@
                     'loss-bg': !match.summonerMatchDetail.stats.win}">
                         <div class="col-md-4 col-sm-12 align-team1 border-right zero-padding">
                             <div class="row">
-                                <div class="col-md-4 col-sm-12 zero-padding">
+                                <div class="col-md-4 col-sm-12 zero-padding"
+                                style="position: relative;">
                                     <ngx-summoner-match-info [summonerInfo]="match.summonerMatchDetail">
                                     </ngx-summoner-match-info>
                                     <!-- <hr class="hr-no-margin"> -->
@@ -87,6 +89,37 @@
                                     </label>
                                     <label class="label label-white">
                                         {{match.timestamp | date: 'dd/MM/yyyy HH:MM'}}
+                                    </label>
+                                    <label class="label"
+                                        *ngIf="match.summonerMatchDetail.stats.pentaKills>0">
+                                        <nb-badge text="Penta" status="success" position="bottom start">
+                                        </nb-badge>
+                                    </label>
+                                    <label class="label"
+                                        *ngIf="match.summonerMatchDetail.stats.pentaKills<1 &&
+                                        match.summonerMatchDetail.stats.quadraKills>0">
+                                        <nb-badge text="Quadra" status="success" position="bottom start">
+                                        </nb-badge>
+                                    </label>
+                                    <label class="label"
+                                    *ngIf="match.summonerMatchDetail.stats.pentaKills<1 &&
+                                    match.summonerMatchDetail.stats.quadraKills<1 &&
+                                    match.summonerMatchDetail.stats.tripleKills>0">
+                                        <nb-badge text="Triple" status="success" position="bottom start">
+                                        </nb-badge>
+                                    </label>
+                                    <label class="label"
+                                    *ngIf="match.summonerMatchDetail.stats.pentaKills<1 &&
+                                    match.summonerMatchDetail.stats.quadraKills<1 &&
+                                    match.summonerMatchDetail.stats.tripleKills<1 &&
+                                    match.summonerMatchDetail.stats.doubleKills>0">
+                                        <nb-badge text="Double" status="success" position="bottom start">
+                                        </nb-badge>
+                                    </label>
+                                    <label class="label"
+                                        *ngIf="match.summonerMatchDetail.mvp">
+                                        <nb-badge text="MVP" status="success" position="bottom border-right">
+                                        </nb-badge>
                                     </label>
                                 </div>
                                 <div class="col-md-7 col-sm-12">
@@ -101,6 +134,9 @@
                                             {{match.summonerMatchDetail.stats.deaths}} /
                                             {{match.summonerMatchDetail.stats.assists}} --
                                             CS: {{match.summonerMatchDetail.stats.totalMinionsKilled}}</label>
+                                            <label class="label label-white">
+                                                {{match.summonerMatchDetail.stats.totalDamageDealtToChampions | number}} DMG
+                                            </label>
                                     </div>
                                     <div class="row justify-content-center mt-10">
                                         <div class="col-2 zero-padding"

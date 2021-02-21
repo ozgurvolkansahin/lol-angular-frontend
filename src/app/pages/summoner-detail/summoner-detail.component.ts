@@ -9,7 +9,8 @@ import { ChampionMasteriesModel } from 'app/@core/models/champion-masteries-mode
 import { Entry } from 'app/@core/models/entry-models/entry';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
 import { MatchReferenceDto } from 'app/@core/models/match-models/match';
-import { ParticipantDto } from 'app/@core/models/match-models/matchListDto';
+import { MatchDTO, ParticipantDto } from 'app/@core/models/match-models/matchListDto';
+import { isMetaProperty } from 'typescript';
 
 @Component({
   selector: 'ngx-summoner-detail',
@@ -75,6 +76,7 @@ export class SummonerDetailComponent implements OnInit {
         x.summonerMatchDetail.perkSubStyleName = this.findRunes(x.summonerMatchDetail.stats.perkSubStyle);
         x.summonerMatchDetail.spell1Name = this.findSpells(x.summonerMatchDetail.spell1Id);
         x.summonerMatchDetail.spell2Name = this.findSpells(x.summonerMatchDetail.spell2Id);
+        x.summonerMatchDetail.mvp = this.ifMVP(x);
       });
     });
   }
@@ -129,5 +131,18 @@ export class SummonerDetailComponent implements OnInit {
   onSummonerFromTableSelected(e) {
     // this.router.navigate([]);
     window.location.replace(`pages/summoner-detail/${e.server}/${e.summonerName}`);
+  }
+
+  ifMVP(data: MatchReferenceDto) {
+    let isMVP = true;
+    const playerDamage = data.summonerMatchDetail.stats.totalDamageDealtToChampions;
+    const relatedTeam = data.matchDTO.participants.filter(x => x.teamId === data.summonerMatchDetail.teamId);
+    for(let i = 0; i < relatedTeam.length; i++) {
+      if (playerDamage < relatedTeam[i].stats.totalDamageDealtToChampions) {
+        isMVP = false;
+        return;
+      }
+    }
+    return isMVP;
   }
 }
