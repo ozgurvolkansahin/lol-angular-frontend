@@ -93,10 +93,11 @@ export class SummonerDetailComponent implements OnInit {
       this.wlData = r.data;
       this.wlData.forEach(x => {
         x.championName = this.findChampion(x[0].champion);
-        x.totalKills = (x.reduce((sum, x) => sum + x.kills, 0) / x.length).toFixed(2);
-        x.totalAssists = (x.reduce((sum, x) => sum + x.assists, 0) / x.length).toFixed(2);
-        x.totalDeaths = (x.reduce((sum, x) => sum + x.deaths, 0) / x.length).toFixed(2);
-        x.winRate = (x.filter(x => x.win).length / x.length * 100).toFixed(2);
+        x.totalKills = (x.reduce((sum, y) => sum + y.kills, 0) / x.length).toFixed(2);
+        x.totalAssists = (x.reduce((sum, y) => sum + y.assists, 0) / x.length).toFixed(2);
+        x.totalDeaths = (x.reduce((sum, y) => sum + y.deaths, 0) / x.length).toFixed(2);
+        x.minions = (x.reduce((sum, y) => sum + y.minions, 0) / x.length).toFixed(2);
+        x.winRate = (x.filter(y => y.win).length / x.length * 100).toFixed(2);
       });
     });
   }

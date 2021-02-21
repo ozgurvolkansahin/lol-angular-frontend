@@ -148,6 +148,7 @@
                         <nb-card>
                             <nb-card-header>
                                 <nb-user [name]="player.summonerName"
+                                    [title]="player.tier + ' ' + player.rank + ' - ' + player.leaguePoints + ' LP'"
                                     picture="/assets/dragontail/dragontail/img/champion/{{player.championName}}.png">
                                 </nb-user>
                             </nb-card-header>

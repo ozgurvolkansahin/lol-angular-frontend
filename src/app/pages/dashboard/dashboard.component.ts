@@ -77,14 +77,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getLiveMatch() {
-    this.router.navigate(['/pages/live-tracking/' + this.server + '/' + this.summonerName])
     this.promise.then(res => {
       this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
       .subscribe(result => {
         if (result.data === null) {
           this.toast.danger('Bulunamadı', 'Sihirdar aktif bir oyunda değil!');
           this.router.navigate(['/pages/live-tracking']);
-
           return;
         }
         this.currentGameInfo = result.data;

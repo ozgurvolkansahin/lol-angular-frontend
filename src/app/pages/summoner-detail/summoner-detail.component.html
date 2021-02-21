@@ -1,33 +1,3 @@
-<!-- <div class="row">
-    <div class="col-4">
-        <nb-card *ngIf="summonerEntryData">
-            <nb-card-header>
-                Sihirdar Bilgileri
-            </nb-card-header>
-            <nb-card-body>
-                <div class="row" *ngFor="let data of summonerEntryData">
-                    <div class="col-12">
-                        <nb-user [name]="data.summonerName"
-                        [title]="data.tier + ' ' + data.rank + ' - ' + data.leaguePoints + ' LP'"
-                        picture="/assets/ranked-emblems/Emblem_{{data.tier}}.png">
-                        </nb-user>
-                    </div>
-                <div class="row" *ngFor="let data of summonerEntryData">
-                    <div class="col-12">
-                        <nb-user [name]="data.summonerName"
-                        [title]="data.tier + ' ' + data.rank + ' - ' + data.leaguePoints + ' LP'"
-                        picture="/assets/ranked-emblems/Emblem_{{data.tier}}.png">
-                        </nb-user>
-                    </div>
-                </div>
-            </nb-card-body>
-            <nb-card-footer>
-                
-            </nb-card-footer>
-        </nb-card>
-    </div>
-</div> -->
-
 <div class="row">
     <div class="col-md-3 col-sm-12">
         <nb-card *ngIf="summonerEntryData">
@@ -100,6 +70,7 @@
                             [title]="item.totalKills + '/' + item.totalDeaths + '/' + item.totalAssists"
                             picture="/assets/dragontail/dragontail/img/champion/{{item.championName}}.png">
                         </nb-user>
+                        <label class="label label-white">CS: {{item.minions}}</label>
                     </div>
                 </nb-list-item>
                 <nb-list-item class="history-padding" *ngFor="let match of matchData; let i = index">
