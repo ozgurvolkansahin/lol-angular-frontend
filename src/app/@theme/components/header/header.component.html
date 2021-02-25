@@ -1,13 +1,17 @@
 <div class="header-container">
   <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </a>
+
     <a class="logo" href="#" (click)="navigateHome()">BronzElo<span></span></a>
   </div>
-  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
-    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-  </nb-select>
+  <nb-tabset
+  (changeTab)="onTabChanged($event)">
+    <nb-tab tabTitle="Track">
+      <!-- <p>List of <strong>users</strong>.</p> -->
+    </nb-tab>
+    <nb-tab tabTitle="Free Champions">
+      <!-- <p>List of <strong>orders</strong>.</p> -->
+    </nb-tab>
+  </nb-tabset>
 </div>
 
 <div class="header-container">

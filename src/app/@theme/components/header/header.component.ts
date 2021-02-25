@@ -3,6 +3,7 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -41,12 +42,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private router: Router) {
   }
 
   ngOnInit() {
     // this.currentTheme = this.themeService.currentTheme;
-    this.changeTheme('dark');
+    this.changeTheme('cosmic');
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(
@@ -79,7 +81,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.menuService.navigateHome();
+    // this.menuService.navigateHome();
+    this.router.navigate(['pages/live-tracking']);
     return false;
+  }
+
+  onTabChanged(e) {
+    console.log(e);
+    if (e.tabTitle === 'Free Champions') {
+      this.router.navigate(['pages/free-champs']);
+
+    } else if (e.tabTitle === 'Track') {
+      this.router.navigate(['pages/live-tracking']);
+
+    }
+    // this.router.navigate(['pages/live-tracking']);
   }
 }
