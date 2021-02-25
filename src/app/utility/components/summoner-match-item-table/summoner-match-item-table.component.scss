@@ -15,7 +15,9 @@ padding-left:15px;
 
 .inline-row {
     background-color:#0a1b24;
-    margin:5px;
+    // margin:5px;
+    // display: inline-flex !important;
+    flex-wrap: inherit !important;
 }
 
 .item { 
@@ -55,7 +57,7 @@ padding-left:15px;
     text-overflow: ellipsis;
     overflow:hidden;
     white-space:nowrap;
-    width: 15%;
+    width: 10%;
 }
 
 .team-2 {

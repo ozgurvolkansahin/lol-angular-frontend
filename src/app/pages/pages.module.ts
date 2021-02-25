@@ -10,6 +10,7 @@ import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rot
 import { ChampDetailsComponent } from './champ-details/champ-details.component';
 import { SummonerDetailComponent } from './summoner-detail/summoner-detail.component';
 import { UtilityModule } from 'app/utility/utility.module';
+import { MultipleSearchComponent } from './multiple-search/multiple-search.component';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { UtilityModule } from 'app/utility/utility.module';
     FreeChampRotationComponent,
     ChampDetailsComponent,
     SummonerDetailComponent,
-
+    MultipleSearchComponent,
   ],
 })
 export class PagesModule {

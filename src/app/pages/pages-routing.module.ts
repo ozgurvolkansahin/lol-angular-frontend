@@ -7,6 +7,7 @@ import { NotFoundComponent } from './miscellaneous/not-found/not-found.component
 import { FreeChampRotationComponent } from './free-champ-rotation/free-champ-rotation.component';
 import { ChampDetailsComponent } from './champ-details/champ-details.component';
 import { SummonerDetailComponent } from './summoner-detail/summoner-detail.component';
+import { MultipleSearchComponent } from './multiple-search/multiple-search.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,6 +20,10 @@ const routes: Routes = [{
     {
       path: 'live-tracking',
       component: DashboardComponent,
+    },
+    {
+      path: 'multiple-search',
+      component: MultipleSearchComponent,
     },
     {
       path: 'summoner-detail/:server/:summonerName',
