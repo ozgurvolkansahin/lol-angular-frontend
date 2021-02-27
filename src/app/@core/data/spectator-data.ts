@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { ApiResult } from '../models/api-result';
+import { MultipleSummoner } from '../models/match-models/multiple-summoner';
 import { CurrentGameInfo } from '../models/spectator/spectator-model';
 
 export abstract class SpectatorData {

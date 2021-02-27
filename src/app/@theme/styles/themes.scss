@@ -114,3 +114,14 @@ $nb-themes: nb-register-theme((
 .mt-20 {
   margin-top: 20px;
 }
+.nb-theme-cosmic nb-card-header {
+  line-height: 0.5rem !important;
+}
+.nb-theme-cosmic nb-card-footer {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.nb-theme-cosmic nb-card {
+  line-height: 0.5rem !important;
+  font-weight: 0.8rem !important;
+}

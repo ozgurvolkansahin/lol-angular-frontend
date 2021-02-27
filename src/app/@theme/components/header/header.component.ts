@@ -86,15 +86,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
+
+  navigateFree() {
+    // this.menuService.navigateHome();
+    this.router.navigate(['pages/free-champs']);
+    return false;
+  }
+
+
+  navigateMultipleSearch() {
+    // this.menuService.navigateHome();
+    this.router.navigate(['pages/multiple-search']);
+    return false;
+  }
+
   onTabChanged(e) {
-    console.log(e);
-    if (e.tabTitle === 'Free Champions') {
-      this.router.navigate(['pages/free-champs']);
-
-    } else if (e.tabTitle === 'Track') {
-      this.router.navigate(['pages/live-tracking']);
-
-    }
+      if (e.tabTitle === 'Free Champions') {
+        this.router.navigate(['pages/free-champs']);
+        console.log(e);
+  
+      } else if (e.tabTitle === 'Track') {
+        this.router.navigate(['pages/live-tracking']);
+        console.log(e);
+  
+      } else if (e.tabTitle === 'Summoner Details') {
+        this.router.navigate(['pages/summoner-detail']);
+        console.log(e);
+  
+      }
     // this.router.navigate(['pages/live-tracking']);
   }
 }

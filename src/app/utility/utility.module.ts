@@ -6,12 +6,15 @@ import { NbCardModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
 import { GameModePipe } from './pipe/gameMode.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { TierPipe } from './pipe/tier.pipe';
 
 @NgModule({
   declarations: [RankedPipe,
     SummonerMatchItemTableComponent,
     SummonerMatchInfoComponent,
-    GameModePipe],
+    GameModePipe,
+    TierPipe
+  ],
   imports: [
     NbUserModule,
     NbCardModule,
@@ -22,6 +25,7 @@ import { CommonModule } from '@angular/common';
     SummonerMatchItemTableComponent,
     SummonerMatchInfoComponent,
     GameModePipe,
+    TierPipe,
   ],
 })
 export class UtilityModule {

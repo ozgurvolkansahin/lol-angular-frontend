@@ -26,6 +26,10 @@ const routes: Routes = [{
       component: MultipleSearchComponent,
     },
     {
+      path: 'summoner-detail',
+      component: SummonerDetailComponent,
+    },
+    {
       path: 'summoner-detail/:server/:summonerName',
       component: SummonerDetailComponent,
     },

@@ -1,17 +1,17 @@
 <div class="header-container">
-  <div class="logo-container">
+  <a class="logo"
+  (click)="navigateHome()"
+  style="cursor:pointer">
+  BronzElo</a>
+  <a class="logo"
+  (click)="navigateFree()"
+  style="cursor:pointer">
+  Free Champions</a>
+  <a class="logo"
+  (click)="navigateMultipleSearch()"
+  style="cursor:pointer">
+  Multiple Search</a>
 
-    <a class="logo" href="#" (click)="navigateHome()">BronzElo<span></span></a>
-  </div>
-  <nb-tabset
-  (changeTab)="onTabChanged($event)">
-    <nb-tab tabTitle="Track">
-      <!-- <p>List of <strong>users</strong>.</p> -->
-    </nb-tab>
-    <nb-tab tabTitle="Free Champions">
-      <!-- <p>List of <strong>orders</strong>.</p> -->
-    </nb-tab>
-  </nb-tabset>
 </div>
 
 <div class="header-container">

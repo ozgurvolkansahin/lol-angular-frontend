@@ -9,8 +9,7 @@ import { ChampionMasteriesModel } from 'app/@core/models/champion-masteries-mode
 import { Entry } from 'app/@core/models/entry-models/entry';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
 import { MatchReferenceDto } from 'app/@core/models/match-models/match';
-import { MatchDTO, ParticipantDto } from 'app/@core/models/match-models/matchListDto';
-import { isMetaProperty } from 'typescript';
+import { ParticipantDto } from 'app/@core/models/match-models/matchListDto';
 
 @Component({
   selector: 'ngx-summoner-detail',
@@ -47,6 +46,7 @@ export class SummonerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("sdadasd");
   }
 
   getData() {
@@ -94,6 +94,8 @@ export class SummonerDetailComponent implements OnInit {
     this.wlService.getWL(summonerName, server).subscribe(r => {
       this.wlData = r.data;
       this.wlData.forEach(x => {
+        x.totalWins = x.filter(a => a.win);
+        x.totalLosses = x.filter(a => !a.win);
         x.championName = this.findChampion(x[0].champion);
         x.totalKills = (x.reduce((sum, y) => sum + y.kills, 0) / x.length).toFixed(2);
         x.totalAssists = (x.reduce((sum, y) => sum + y.assists, 0) / x.length).toFixed(2);

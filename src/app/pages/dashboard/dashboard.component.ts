@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
+import { ChampionWLData } from 'app/@core/data/championWL-data';
 import { JsonData } from 'app/@core/data/json-data';
 import { ServerData } from 'app/@core/data/servers-data';
 import { SpectatorData } from 'app/@core/data/spectator-data';
@@ -19,13 +20,15 @@ export class DashboardComponent implements OnInit {
   summonerName;
   routedServer = null;
   routedSummoner = null;
+  multipleWLData: any;
   constructor(
     private spectatorService: SpectatorData,
     private jsonService: JsonData,
     private serverService: ServerData,
     private toast: NbToastrService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private championWLService: ChampionWLData) {
       this.routedServer = this.route.snapshot.paramMap.get('server');
       this.routedSummoner = this.route.snapshot.paramMap.get('summonerName');
       this.getData();
@@ -41,7 +44,7 @@ export class DashboardComponent implements OnInit {
   team1BannedChamps: BannedChampion[] = [];
   team2 = [];
   servers: ServerModel;
-  server: string = 'tr';
+  server: string = 'tr1';
   team2BannedChamps: BannedChampion[] = [];
   currentGameInfo: CurrentGameInfo;
   champData;
@@ -77,15 +80,32 @@ export class DashboardComponent implements OnInit {
   }
 
   getLiveMatch() {
-    if (this.summonerName.split(',').length > 1) {
+    if ([...new Set(this.summonerName.split(',').map(x => x.trim()))].length > 1) {
       let summonerNameList = this.summonerName.split(',');
       summonerNameList = summonerNameList.map(x => x.trim());
+      this.championWLService.getMultipleSummoners(summonerNameList, this.server)
+      .subscribe(result => {
+        this.multipleWLData = result.data;
+        this.multipleWLData.forEach(x=> {
+          x.details.forEach(y => {
+            y.totalWins = y.filter(a => a.win).length;
+            y.totalLosses = y.filter(a => !a.win).length;  
+            y.championName = this.findChampion(y[0].champion);
+            y.totalKills = (y.reduce((sum, y) => sum + y.kills, 0) / y.length).toFixed(2);
+            y.totalAssists = (y.reduce((sum, y) => sum + y.assists, 0) / y.length).toFixed(2);
+            y.totalDeaths = (y.reduce((sum, y) => sum + y.deaths, 0) / y.length).toFixed(2);
+            y.minions = (y.reduce((sum, y) => sum + y.minions, 0) / y.length).toFixed(2);
+            y.winRate = (y.filter(y => y.win).length / y.length * 100).toFixed(2);
+          });
+        });
+        this.router.navigate(['pages/multiple-search'], {state: {data: this.multipleWLData}});
+      });
     } else {
       this.promise.then(res => {
         this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
         .subscribe(result => {
           if (result.data === null) {
-            this.toast.danger('Bulunamadı', 'Sihirdar aktif bir oyunda değil!');
+            this.toast.danger('Bulunamadı', 'Aktif bir oyun bilgisi bulunamadı!');
             this.router.navigate(['/pages/live-tracking']);
             return;
           }
@@ -151,17 +171,17 @@ export class DashboardComponent implements OnInit {
         setTimeout(() => {
           this.summonerName = pastedText.replaceAll(' lobiye katıldı', ',');
           this.summonerName = this.summonerName.substr(0, this.summonerName.length - 1);
-        }, 100);
+        }, 20);
       } else if (pastedText.includes(' joined the lobby')) {
         setTimeout(() => {
           this.summonerName = pastedText.replaceAll(' joined the lobby', ',');
           this.summonerName = this.summonerName.substr(0, this.summonerName.length - 1);
-        }, 100);
+        }, 20);
       } else if (pastedText.includes(' joined lobby')) {
         setTimeout(() => {
           this.summonerName = pastedText.replaceAll(' joined lobby', ',');
           this.summonerName = this.summonerName.substr(0, this.summonerName.length - 1);
-        }, 100);
+        }, 20);
       }
     }
 

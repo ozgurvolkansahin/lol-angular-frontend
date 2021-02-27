@@ -5,19 +5,32 @@
     <nb-card-body>
 
         <!--. bronzelo png -->
-        <div class="row justify-content-around">
-            <div class="col-6">
+        <div class="row">
+            <div class="col-12 text-center">
                 <img src="/assets/images/bronzelo.png">
             </div>
         </div>
         <!--. bronzelo png-->
 
-        <div class="row">
-            <div class="col-2">
 
+        <!--. exp  -->
+        <div class="row mt-20">
+            <div class="col-12">
+                <p>Bronzelo reklamları gözünüze sokmayan, reklam göstermek için içeriği bozmayan ve tek amacı önemli istatistikleri 
+                    tek bir sayfa altında buluşturarak size canlı maç veya summoner(lar) hakkında bilgiler sunan 
+                    ve Lol tutkunları tarafından hazırlanmış bir platformdur. Her fikir bizim için önemlidir. TFT- Valorant gibi oyunlar da 
+                    zamanla eklenecek olup, her bir geliştirme fikrini asdad@gmail.com adresine sunmanız bizim için oldukça önemlidir.
+                </p>
+                <p> Bronzelo platformunda ilk defa arama gerçekleştirdiğinizde verileriniz sistemimize yükleneceği için biraz zaman alabilir.
+                    Bu sebeple ilk arama yaptığınızda biraz beklemenizi rica ediyoruz.
+                </p>
             </div>
+        </div>
+        <!--. exp -->
+
+        <div class="row mt-20">
             <div class="col-6">
-                <input type="text" nbInput fullWidth size="small" placeholder="Sihirdar Adı..."
+                <input type="text" nbInput fullWidth size="small" placeholder="Sihirdar 1, Sihirdar 2, Sihirdar 3..."
                 (paste)="onSummonerPaste($event)"
                     [(ngModel)]="summonerName">
             </div>
@@ -29,11 +42,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
-
-            </div>
             <div class="col-3 mt-20">
-                <button nbButton fullWidth status="primary" size="small" (click)="getLiveMatch()">
+                <button nbButton fullWidth status="primary" size="small"
+                (click)="getLiveMatch()"
+                [disabled]="summonerName === undefined">
                     <nb-icon icon="star"></nb-icon>Ara
                 </button>
             </div>
