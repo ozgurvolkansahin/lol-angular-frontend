@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
         this.multipleWLData.forEach(x=> {
           x.details.forEach(y => {
             y.totalWins = y.filter(a => a.win).length;
-            y.totalLosses = y.filter(a => !a.win).length;  
+            y.totalLosses = y.filter(a => !a.win).length;
             y.championName = this.findChampion(y[0].champion);
             y.totalKills = (y.reduce((sum, y) => sum + y.kills, 0) / y.length).toFixed(2);
             y.totalAssists = (y.reduce((sum, y) => sum + y.assists, 0) / y.length).toFixed(2);
@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit {
         .subscribe(result => {
           if (result.data === null) {
             this.toast.danger('Bulunamadı', 'Aktif bir oyun bilgisi bulunamadı!');
-            this.router.navigate(['/pages/live-tracking']);
+            this.router.navigate(['/pages', this.server, this.summonerName]);
             return;
           }
           this.currentGameInfo = result.data;
