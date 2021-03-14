@@ -46,7 +46,6 @@ export class SummonerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("sdadasd");
   }
 
   getData() {
@@ -67,8 +66,8 @@ export class SummonerDetailComponent implements OnInit {
     });
   }
 
-  getMatchData(summonerName?: string, server?: string) {
-    this.matchIDService.getMatchData(summonerName, server).subscribe(r => {
+  getMatchData(summonerName?: string, server?: string, refresh?: boolean) {
+    this.matchIDService.getMatchData(summonerName, server, refresh).subscribe(r => {
       this.matchData = r.data;
       r.data.forEach(x => {
         x.summonerMatchDetail.championName = this.findChampion(x.summonerMatchDetail.championId);
@@ -81,8 +80,8 @@ export class SummonerDetailComponent implements OnInit {
     });
   }
 
-  getEntryData(summonerName?: string, server?: string) {
-    this.entryService.getEntryData(summonerName, server).subscribe(r => {
+  getEntryData(summonerName?: string, server?: string, refresh?: boolean) {
+    this.entryService.getEntryData(summonerName, server, refresh).subscribe(r => {
       this.summonerEntryData = r.data;
       this.summonerEntryData.forEach(x => {
         x.tier = x.tier.substring(0, 1) + x.tier.substring(1).toLowerCase();
@@ -90,8 +89,8 @@ export class SummonerDetailComponent implements OnInit {
     });
   }
 
-  getWLData(summonerName?: string, server?: string) {
-    this.wlService.getWL(summonerName, server).subscribe(r => {
+  getWLData(summonerName?: string, server?: string, refresh?: boolean) {
+    this.wlService.getWL(summonerName, server, refresh).subscribe(r => {
       this.wlData = r.data;
       this.wlData.forEach(x => {
         x.totalWins = x.filter(a => a.win);
@@ -106,8 +105,8 @@ export class SummonerDetailComponent implements OnInit {
     });
   }
 
-  getChampionMasteryData(summonerName?: string, server?: string) {
-    this.championMasteryService.getChampionMasteries(summonerName, server).subscribe(r => {
+  getChampionMasteryData(summonerName?: string, server?: string, refresh?: boolean) {
+    this.championMasteryService.getChampionMasteries(summonerName, server, refresh).subscribe(r => {
       // data returns as ordered DESC
       this.summonerChampionMasteryData = r.data;
       this.summonerChampionMasteryData.championMasteries.forEach(x => {
@@ -116,6 +115,15 @@ export class SummonerDetailComponent implements OnInit {
       // this.summonerChampionMasteryData.championMasteries
       // .map(x => Object.assign({}, x.championName = this.findChampion(x.championId)))
     });
+  }
+
+  refreshSummonerData() {
+    const routedServer = this.route.snapshot.paramMap.get('server');
+    const routedSummoner = this.route.snapshot.paramMap.get('summonerName');
+    this.getMatchData(routedSummoner, routedServer, true);
+    this.getEntryData(routedSummoner, routedServer, true);
+    this.getChampionMasteryData(routedSummoner, routedServer, true);
+    // this.getWLData(routedSummoner, routedServer, true);
   }
 
   findChampion(id: number) {

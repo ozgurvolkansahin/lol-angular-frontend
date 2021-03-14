@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit {
         .subscribe(result => {
           if (result.data === null) {
             this.toast.danger('Bulunamadı', 'Aktif bir oyun bilgisi bulunamadı!');
-            this.router.navigate(['/pages', this.server, this.summonerName]);
+            this.router.navigate(['/pages/summoner-detail', this.server, this.summonerName]);
             return;
           }
           this.currentGameInfo = result.data;

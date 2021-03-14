@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { MatchIDData } from '../data/matchID-data';
@@ -13,7 +13,14 @@ export class MatchIDService extends MatchIDData {
     }
     apiUrl = environment.apiUrl;
 
-    getMatchData(summonerName: string, server: string) {
+    getMatchData(summonerName: string, server: string, refresh: boolean) {
+        if (refresh) {
+            let headers = new HttpHeaders();
+            headers = headers.set('refresh', 'true');
+            return this.http.get<ApiResult<MatchReferenceDto[]>>(`${this.apiUrl}matchid/${server}/${summonerName}`, {
+                headers: headers,
+            });
+        }
         return this.http.get<ApiResult<MatchReferenceDto[]>>(`${this.apiUrl}matchid/${server}/${summonerName}`);
     }
 }

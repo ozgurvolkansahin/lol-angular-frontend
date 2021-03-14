@@ -60,6 +60,7 @@
             <nb-card-header>
                 Match History
             </nb-card-header>
+            <button nbButton (click)="refreshSummonerData()"> Verileri Güncelle </button>
             <nb-list>
                 <nb-list-item *ngIf="wlData">
                     <div class="col-md-3 col-sm-12"

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { globalVariables } from 'globalVariables';
@@ -15,7 +15,14 @@ export class ChampionMasteryService extends ChampionMasteryData {
     constructor(private http: HttpClient) {
         super();
     }
-    getChampionMasteries(summonerName: string, server: string) {
+    getChampionMasteries(summonerName: string, server: string, refresh: boolean) {
+        if (refresh) {
+            let headers = new HttpHeaders();
+            headers = headers.set('refresh', 'true');
+            return this.http.get<ApiResult<ChampionMasteriesModel>>(`${this.apiUrl}championmastery/${server}/${summonerName}`, {
+                headers: headers,
+            });
+        }
         return this.http.get<ApiResult<ChampionMasteriesModel>>(`${this.apiUrl}championmastery/${server}/${summonerName}`);
     }
 }

@@ -20,7 +20,6 @@ export class LoginComponent extends NbLoginComponent implements OnInit {
     this.messages = [];
     this.submitted = true;
     this.redirectDelay = 100;
-    console.log('resultr');
     const body = JSON.parse(JSON.stringify(this.user));
     this.service.authenticate(this.strategy, body).subscribe((result: NbAuthResult) => {
       this.submitted = false;

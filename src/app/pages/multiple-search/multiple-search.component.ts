@@ -11,9 +11,9 @@ export class MultipleSearchComponent implements OnInit {
     if (this.router.getCurrentNavigation().extras.state) {
     this.dataList = this.router.getCurrentNavigation().extras.state.data;
     } else {
-      this.router.navigate(['pages/live-tracking'])
+      this.router.navigate(['pages/live-tracking']);
     }
-  } 
+  }
 
   ngOnInit(): void {
   }

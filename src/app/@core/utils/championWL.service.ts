@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { globalVariables } from 'globalVariables';
@@ -16,7 +16,14 @@ export class ChampionWLService extends ChampionWLData {
     constructor(private http: HttpClient) {
         super();
     }
-    getWL(summonerName: string, server: string) {
+    getWL(summonerName: string, server: string, refresh: boolean) {
+        if (refresh) {
+            let headers = new HttpHeaders();
+            headers = headers.set('refresh', 'true');
+            return this.http.get<ApiResult<any>>(`${this.apiUrl}championwl/${server}/${summonerName}`, {
+                headers: headers,
+            });
+        }
         return this.http.get<ApiResult<any>>(`${this.apiUrl}championwl/${server}/${summonerName}`);
     }
     getMultipleSummoners(summonerList: string[], server: string) {
