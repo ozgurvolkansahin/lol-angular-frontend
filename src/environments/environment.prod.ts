@@ -7,6 +7,6 @@
 export const environment = {
   envName: 'production',
   production: true,
-  apiUrl: 'http://89.252.140.87:8080/api/v1/',
+  apiUrl: 'https://api.bronzelo.com:8080/api/v1/',
   // pathRewrite: {'^/api' : ''},
 };

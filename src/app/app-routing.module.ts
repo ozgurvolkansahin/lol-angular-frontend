@@ -17,6 +17,13 @@ export const routes: Routes = [
       .then(m => m.PagesModule),
   },
   {
+    path: 'riot.txt',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./riot-text/riot-text.module')
+      .then(m => m.RiotTextModule),
+
+  },
+  {
     path: 'auth',
     component: NbAuthComponent,
     children: [

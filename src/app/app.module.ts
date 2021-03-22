@@ -22,7 +22,6 @@ import {
 } from '@nebular/theme';
 import { AuthGuard } from './app-auth-guard.service';
 import { HttpConfInterceptor } from './HttpConfInterceptor';
-import { RankedPipe } from './utility/pipe/ranked.pipe';
 
 @NgModule({
   declarations: [AppComponent],
