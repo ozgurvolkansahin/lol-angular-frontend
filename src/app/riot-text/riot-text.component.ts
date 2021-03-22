@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ngx-pages',
-  template: `
-    <ngx-three-columns-layout>
-      <router-outlet></router-outlet>
-    </ngx-three-columns-layout>
-  `,
+  template: ``,
 })
 export class RiotTexttComponent {
 }
