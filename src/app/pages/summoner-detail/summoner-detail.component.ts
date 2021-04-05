@@ -4,6 +4,7 @@ import { ChampionMasteryData } from 'app/@core/data/championMastery-data';
 import { ChampionWLData } from 'app/@core/data/championWL-data';
 import { EntryData } from 'app/@core/data/entry-data';
 import { JsonData } from 'app/@core/data/json-data';
+import { MatchData } from 'app/@core/data/match-data';
 import { MatchIDData } from 'app/@core/data/matchID-data';
 import { ChampionMasteriesModel } from 'app/@core/models/champion-masteries-models/champion-masteries';
 import { Entry } from 'app/@core/models/entry-models/entry';
@@ -26,21 +27,22 @@ export class SummonerDetailComponent implements OnInit {
   summonerJsonData;
   runesReforged: RunesReforged[] = [];
   promise;
-
+  refreshPromise;
   constructor(private matchIDService: MatchIDData,
     private entryService: EntryData,
     private championMasteryService: ChampionMasteryData,
     private wlService: ChampionWLData,
     private route: ActivatedRoute,
     private jsonService: JsonData,
+    private match: MatchData,
     private router: Router) {
-      this.getData();
       const routedServer = this.route.snapshot.paramMap.get('server');
       const routedSummoner = this.route.snapshot.paramMap.get('summonerName');
+      this.getData(routedSummoner, routedServer);
+      this.getEntryData(routedSummoner, routedServer);
+      this.getChampionMasteryData(routedSummoner, routedServer);
       this.promise.then((res) => {
         this.getMatchData(routedSummoner, routedServer);
-        this.getEntryData(routedSummoner, routedServer);
-        this.getChampionMasteryData(routedSummoner, routedServer);
         this.getWLData(routedSummoner, routedServer);
       });
   }
@@ -48,7 +50,8 @@ export class SummonerDetailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getData() {
+
+  getData(routedSummoner, routedServer, refresh?: boolean) {
     this.promise = new Promise((resolve, reject) => {
       this.jsonService.getChampionJSONData()
       .subscribe(res => {
@@ -60,7 +63,9 @@ export class SummonerDetailComponent implements OnInit {
         this.jsonService.getSummonerData()
         .subscribe(res3 => {
           this.summonerJsonData = res3.data;
-          resolve('OK');
+          this.match.getMatchData(routedSummoner, routedServer, refresh).subscribe(res => {
+            resolve('OK');
+          });
         });
       });
     });
@@ -120,10 +125,13 @@ export class SummonerDetailComponent implements OnInit {
   refreshSummonerData() {
     const routedServer = this.route.snapshot.paramMap.get('server');
     const routedSummoner = this.route.snapshot.paramMap.get('summonerName');
-    this.getMatchData(routedSummoner, routedServer, true);
-    this.getEntryData(routedSummoner, routedServer, true);
-    this.getChampionMasteryData(routedSummoner, routedServer, true);
-    // this.getWLData(routedSummoner, routedServer, true);
+      this.getData(routedSummoner, routedServer , true);
+      this.getEntryData(routedSummoner, routedServer, true);
+      this.getChampionMasteryData(routedSummoner, routedServer, true);
+      this.promise.then((res) => {
+        this.getMatchData(routedSummoner, routedServer, true);
+        this.getWLData(routedSummoner, routedServer, true);
+      });
   }
 
   findChampion(id: number) {
