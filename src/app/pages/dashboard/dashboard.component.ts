@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { ChampionWLData } from 'app/@core/data/championWL-data';
 import { JsonData } from 'app/@core/data/json-data';
+import { PlayerData } from 'app/@core/data/player.data';
 import { ServerData } from 'app/@core/data/servers-data';
 import { SpectatorData } from 'app/@core/data/spectator-data';
 import { RunesReforged } from 'app/@core/models/json-models/runesReforged';
@@ -21,6 +22,8 @@ export class DashboardComponent implements OnInit {
   routedServer = null;
   routedSummoner = null;
   multipleWLData: any;
+  previousCurrentGameInfo;
+  previousSummoner;
   constructor(
     private spectatorService: SpectatorData,
     private jsonService: JsonData,
@@ -28,7 +31,8 @@ export class DashboardComponent implements OnInit {
     private toast: NbToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private championWLService: ChampionWLData) {
+    private championWLService: ChampionWLData,
+    private playerData: PlayerData) {
       this.routedServer = this.route.snapshot.paramMap.get('server');
       this.routedSummoner = this.route.snapshot.paramMap.get('summonerName');
       this.getData();
@@ -80,6 +84,10 @@ export class DashboardComponent implements OnInit {
   }
 
   getLiveMatch() {
+    // if (this.previousSummoner === this.summonerName) {
+    //   this.currentGameInfo = this.previousCurrentGameInfo;
+    //   return;
+    // }
     if ([...new Set(this.summonerName.split(',').map(x => x.trim()))].length > 1) {
       let summonerNameList = this.summonerName.split(',');
       summonerNameList = summonerNameList.map(x => x.trim());
@@ -102,47 +110,54 @@ export class DashboardComponent implements OnInit {
       });
     } else {
       this.promise.then(res => {
-        this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
-        .subscribe(result => {
-          if (result.data === null) {
-            this.toast.danger('Bulunamadı', 'Aktif bir oyun bilgisi bulunamadı!');
-            this.router.navigate(['/pages/summoner-detail', this.server, this.summonerName]);
-            return;
+        this.playerData.isPlayerExist(this.server, this.summonerName)
+        .subscribe(playerResult => {
+          if (!playerResult.data) {
+              this.toast.danger('Bulunamadı', 'Böyle bir oyuncu bulunamadı!');
+          } else {
+            this.spectatorService.getSummonerActiveGame(this.summonerName, this.server)
+            .subscribe(result => {
+              if (result.data == null) {
+                this.toast.danger('Bulunamadı', 'Aktif bir oyun bilgisi bulunamadı!');
+                this.router.navigate(['/pages/summoner-detail', this.server, this.summonerName]);
+                return;
+              }
+              this.currentGameInfo = result.data;
+              // team 1 data optimization
+              this.team1 = this.currentGameInfo.participants.filter(x => x.teamId === 100);
+              this.team1.map(x => Object.assign({}, x.championName
+                 = this.findChampion(x.championId)));
+              this.team1.map(x => Object.assign({}, x.spell1Name
+                 = this.findSpells(x.spell1Id)));
+              this.team1.map(x => Object.assign({}, x.spell2Name
+                 = this.findSpells(x.spell2Id)));
+              this.team1.map(x => Object.assign({}, x.perks.perkStyleName
+                  = this.findRunes(x.perks.perkStyle)));
+              this.team1.map(x => Object.assign({}, x.perks.perkSubStyleName
+                  = this.findRunes(x.perks.perkSubStyle)));
+
+              // team 2 data optimization
+              this.team2 = this.currentGameInfo.participants.filter(x => x.teamId === 200);
+              this.team2.map(x => Object.assign({}, x.championName
+                 = this.findChampion(x.championId)));
+              this.team2.map(x => Object.assign({}, x.spell1Name
+                 = this.findSpells(x.spell1Id)));
+                this.team2.map(x => Object.assign({}, x.spell2Name
+                = this.findSpells(x.spell2Id)));
+              this.team2.map(x => Object.assign({}, x.perks.perkStyleName
+                  = this.findRunes(x.perks.perkStyle)));
+              this.team2.map(x => Object.assign({}, x.perks.perkSubStyleName
+                  = this.findRunes(x.perks.perkSubStyle)));
+
+              // banned champions
+              this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 100);
+              this.team1BannedChamps.map(x => Object.assign({}, x.championName
+                = this.findChampion(x.championId)));
+              this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 200);
+              this.team2BannedChamps.map(x => Object.assign({}, x.championName
+                = this.findChampion(x.championId)));
+            });
           }
-          this.currentGameInfo = result.data;
-          // team 1 data optimization
-          this.team1 = this.currentGameInfo.participants.filter(x => x.teamId === 100);
-          this.team1.map(x => Object.assign({}, x.championName
-             = this.findChampion(x.championId)));
-          this.team1.map(x => Object.assign({}, x.spell1Name
-             = this.findSpells(x.spell1Id)));
-          this.team1.map(x => Object.assign({}, x.spell2Name
-             = this.findSpells(x.spell2Id)));
-          this.team1.map(x => Object.assign({}, x.perks.perkStyleName
-              = this.findRunes(x.perks.perkStyle)));
-          this.team1.map(x => Object.assign({}, x.perks.perkSubStyleName
-              = this.findRunes(x.perks.perkSubStyle)));
-
-          // team 2 data optimization
-          this.team2 = this.currentGameInfo.participants.filter(x => x.teamId === 200);
-          this.team2.map(x => Object.assign({}, x.championName
-             = this.findChampion(x.championId)));
-          this.team2.map(x => Object.assign({}, x.spell1Name
-             = this.findSpells(x.spell1Id)));
-            this.team2.map(x => Object.assign({}, x.spell2Name
-            = this.findSpells(x.spell2Id)));
-          this.team2.map(x => Object.assign({}, x.perks.perkStyleName
-              = this.findRunes(x.perks.perkStyle)));
-          this.team2.map(x => Object.assign({}, x.perks.perkSubStyleName
-              = this.findRunes(x.perks.perkSubStyle)));
-
-          // banned champions
-          this.team1BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 100);
-          this.team1BannedChamps.map(x => Object.assign({}, x.championName
-            = this.findChampion(x.championId)));
-          this.team2BannedChamps = this.currentGameInfo.bannedChampions.filter(x => x.teamId === 200);
-          this.team2BannedChamps.map(x => Object.assign({}, x.championName
-            = this.findChampion(x.championId)));
         });
       });
     }
@@ -161,7 +176,9 @@ export class DashboardComponent implements OnInit {
   }
 
   routeBack() {
-    this.router.navigate(['pages/live-tracking']);
+    // this.previousCurrentGameInfo = this.currentGameInfo;
+    // this.previousSummoner = this.summonerName;
+    this.currentGameInfo = undefined;
   }
 
   onSummonerPaste(e) {

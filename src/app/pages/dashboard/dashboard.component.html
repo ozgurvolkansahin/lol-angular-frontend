@@ -31,7 +31,8 @@
         <div class="row mt-20">
             <div class="col-6">
                 <input type="text" nbInput fullWidth size="small" placeholder="Sihirdar 1, Sihirdar 2, Sihirdar 3..."
-                (paste)="onSummonerPaste($event)"
+                    (paste)="onSummonerPaste($event)"
+                    (keyup.enter)="summonerName === undefined ? '' : getLiveMatch()"
                     [(ngModel)]="summonerName">
             </div>
             <div class="col-2" *ngIf="servers">
@@ -75,12 +76,13 @@
             <!-- team 1 -->
             <nb-card>
                 <nb-card-header>
-                    Takım 1 - Red Side
+                    Team 1 - Red Side
                 </nb-card-header>
                 <nb-card-body>
                     <div class="row  mt-20">
                         <div class="col-2" *ngFor="let player of team1">
-                            <nb-card>
+                            <nb-card style="cursor: pointer;"
+                            routerLink="/pages/summoner-detail/{{server}}/{{player.summonerName}}" routerLinkActive="router-link-active" >
                                 <nb-card-header>
                                     <nb-user [name]="player.summonerName"
                                     [title]="player.tier + ' ' + player.rank + ' - ' + player.leaguePoints + ' LP'"
@@ -135,7 +137,7 @@
                     </div>
     
                     <!-- team 2 banned champs-->
-                    <label class="label">Banlanan Şampiyonlar</label>
+                    <label class="label">Banned Champions</label>
                     <div class="row">
                         <div class="col-2" *ngFor="let champ of team1BannedChamps">
                             <nb-card-body>
@@ -153,12 +155,13 @@
         <!-- team 2 -->
         <nb-card>
             <nb-card-header>
-                Takım 2 - Blue Side
+                Team 2 - Blue Side
             </nb-card-header>
             <nb-card-body>
                 <div class="row  mt-20">
                     <div class="col-2" *ngFor="let player of team2">
-                        <nb-card>
+                        <nb-card style="cursor: pointer;"
+                        routerLink="/pages/summoner-detail/{{server}}/{{player.summonerName}}" routerLinkActive="router-link-active" >
                             <nb-card-header>
                                 <nb-user [name]="player.summonerName"
                                     [title]="player.tier + ' ' + player.rank + ' - ' + player.leaguePoints + ' LP'"
@@ -213,7 +216,7 @@
                 </div>
 
                 <!-- team 2 banned champs-->
-                <label class="label">Banlanan Şampiyonlar</label>
+                <label class="label">Banned Champions</label>
                 <div class="row">
                     <div class="col-2" *ngFor="let champ of team2BannedChamps">
                         <nb-card-body>
